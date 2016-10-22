@@ -25,7 +25,7 @@ There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR P
 
 ### Building
 
-```make```
+``` make ```
 
 ### Running
 
