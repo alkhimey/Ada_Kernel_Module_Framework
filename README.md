@@ -3,7 +3,7 @@ Ada Linux Kernel Module Toolkit
 
 This toolkit allow writing Linux kernel modules suing the Ada programming langauge.
 
-## Prerequirments
+### Prerequirments
 
 I used the following versions of the tools:
 
@@ -21,18 +21,19 @@ GPRBUILD GPL 2016 (20160515) (x86_64-pc-linux-gnu)
 Copyright (C) 2004-2016, AdaCore
 This is free software; see the source for copying conditions.
 There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+```
 
-## Building
+### Building
 
 ```make```
 
-## Running
+### Running
 
 A file called ```hello.ko``` will be generated.
 
-It is possible to insert and remove it using the ```insmod``` and ``rmmod``` commands in ```sudo``` mode.
+It is possible to insert and remove it using the ```insmod``` and ```rmmod``` commands in ```sudo``` mode.
 
-Use ```dmesg tail``` to see the output log. 
+Use ```dmesg | tail``` to see the output log. 
 
 ## GNUv3 License
 
