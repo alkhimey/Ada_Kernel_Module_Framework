@@ -9,23 +9,26 @@ project Kernel_Module_Lib is
 
    for Library_Interface use ("ada_foo_pack"); -- TODO: use Source_Dirs
    
-   --for Runtime("Ada") use "zfp";
-   --for Default_Switches ("Ada") use ("--RTS=zfp");
-
+   --for Runtime("Ada") use "rts";
+   
 
    package Builder is
       for Default_Switches ("Ada") use ("-gnat05", "-x", "-a", "-gnatg", 
-         "-gnatec=../gnat.adc", "-gnaty-I",
+         "-gnaty-I",
          "-gnaty+d", "-O2");
+         
+      for Global_Configuration_Pragmas use "gnat.adc";
    end Builder;
 
    package Binder is
-      for Default_Switches ("ada") use ("-nostdlib");
+      for Default_Switches ("Ada") use ("-nostdlib", 
+         "--RTS=" & Kernel_Module_Lib'Project_Dir & "rts");
    end Binder;
 
    package Compiler is
-      for Default_Switches ("ada") use ("-static", "-nostdlib", "-O2", 
-         "-ffunction-sections", "-fdata-sections");
+      for Default_Switches ("Ada") use ("-static", "-nostdlib", "-O2", 
+         "-ffunction-sections", "-fdata-sections", 
+         "--RTS=" & Kernel_Module_Lib'Project_Dir & "rts");
    end Compiler;
 
 end Kernel_Module_Lib;
