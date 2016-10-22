@@ -35,6 +35,6 @@ It is possible to insert and remove it using the ```insmod``` and ```rmmod``` co
 
 Use ```dmesg | tail``` to see the output log. 
 
-## GNUv3 License
+### GPLv3 License
 
 See _COPYING3_ file for details.
