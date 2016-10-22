@@ -1,0 +1,24 @@
+library project gnat is
+
+   for Source_Dirs use ("adainclude");
+   for Object_Dir use "obj";
+   for Library_Dir use "adalib";
+   for Library_Kind use "static";
+   for Library_Name use "gnat"; 
+
+
+   package Builder is
+      Basic_Switches := ("-gnat05", "-O0", "-g3", "-x", "-a", "-gnatg",
+			 "-gnatec=../../gnat.adc", "-gnatd.n");
+
+      for Default_Switches ("Ada") use Basic_Switches;
+   
+   end Builder;
+
+   package Compiler is
+      for Default_Switches ("Ada") use
+	("-O0",	"-g3", "-ffunction-sections", "-fdata-sections");
+   end Compiler;
+
+
+end gnat;

@@ -1,0 +1,12 @@
+-- https://groups.google.com/forum/#!topic/comp.lang.ada/snlsntRL0_U
+-- https://gcc.gnu.org/onlinedocs/gnat_ugn/Building-a-Stand-alone-Library.html
+-- http://stackoverflow.com/questions/26805533/how-to-create-an-ada-lib-a-and-link-to-c-updated
+-- https://docs.adacore.com/gnathie_ug-docs/html/gnathie_ug/gnathie_ug/the_predefined_profiles.html
+-- https://groups.google.com/forum/#!topic/comp.lang.ada/6OwwCRdwpkk
+-- http://wiki.osdev.org/Ada_Bare_bones
+-- https://lwn.net/Articles/21835/
+-- https://gcc.gnu.org/onlinedocs/gcc-6.2.0/gnat_ugn/Stand-alone-Ada-Libraries.html#Stand-alone-Ada-Libraries
+-- http://coding.derkeiler.com/Archive/Ada/comp.lang.ada/2008-02/msg00160.html
+--
+--
+--

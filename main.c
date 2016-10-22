@@ -1,13 +1,14 @@
 #include <linux/module.h> /* Needed by all modules */
 #include <linux/kernel.h> /* Needed for KERN_INFO */
 
-extern void adainit (void);
-extern void adafinal (void);
+extern void adakernelmoduleinit (void);
+//extern void ada_foo_libfinal (void);
+
 extern int ada_foo(void);
 
 int init_module(void)
 {
-    adainit();
+    adakernelmoduleinit();
     printk(KERN_ERR "Hello Ada %d.\n", ada_foo());
  
     return 0;
@@ -16,7 +17,7 @@ int init_module(void)
 
 void cleanup_module(void)
 {
-    adafinal();
+    //ada_foo_libfinal();
     printk(KERN_ERR "Goodbye Ada.\n");
 }
 
