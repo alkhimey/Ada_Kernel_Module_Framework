@@ -1,7 +1,7 @@
 Ada Linux Kernel Module Toolkit
 ===============================
 
-This toolkit allow writing Linux kernel modules suing the Ada programming langauge.
+This toolkit allow writing Linux kernel modules using the Ada programming langauge.
 
 ### Prerequirments
 
@@ -31,9 +31,17 @@ There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR P
 
 A file called ```hello.ko``` will be generated.
 
-It is possible to insert and remove it using the ```insmod``` and ```rmmod``` commands in ```sudo``` mode.
+Insert the module into the kernel:
 
-Use ```dmesg | tail``` to see the output log. 
+```sudo insmod hello.ko```
+
+Remove the module from the kernel:
+
+```sudo rmmod hello.ko ```
+
+See message log:
+
+```dmesg | tail```
 
 ### GPLv3 License
 
