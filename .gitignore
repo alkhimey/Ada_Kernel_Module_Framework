@@ -1,6 +1,3 @@
-lib/
-obj/
-rts/adalib
 
 *.o
 *.ko
