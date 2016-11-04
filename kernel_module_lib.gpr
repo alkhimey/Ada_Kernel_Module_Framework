@@ -21,13 +21,18 @@ project Kernel_Module_Lib is
    end Builder;
 
    package Binder is
-      for Default_Switches ("Ada") use ("-nostdlib", 
+      for Default_Switches ("Ada") use ("-nostdlib",  
          "--RTS=" & Kernel_Module_Lib'Project_Dir & "rts");
    end Binder;
 
    package Compiler is
-      for Default_Switches ("Ada") use ("-static", "-nostdlib", "-O2", 
-         "-ffunction-sections", "-fdata-sections", 
+      for Default_Switches ("Ada") use 
+	("-static", 
+	 "-nostdlib", 
+	 "-O2", 
+         --  "-ffunction-sections", 
+	 --  "-fdata-sections", 
+	 "-mcmodel=kernel",         -- required for kernel development
          "--RTS=" & Kernel_Module_Lib'Project_Dir & "rts");
    end Compiler;
 

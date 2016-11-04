@@ -7,6 +7,39 @@
 -- https://lwn.net/Articles/21835/
 -- https://gcc.gnu.org/onlinedocs/gcc-6.2.0/gnat_ugn/Stand-alone-Ada-Libraries.html#Stand-alone-Ada-Libraries
 -- http://coding.derkeiler.com/Archive/Ada/comp.lang.ada/2008-02/msg00160.html
---
---
---
+
+
+
+https://groups.google.com/forum/#!topic/comp.lang.ada/YHsDhdHPIlQ
+https://github.com/thors/ada
+http://www.iuma.ulpgc.es/users/jmiranda/
+http://www.iuma.ulpgc.es/users/jmiranda/gnat-rts/gnat-rts.pdf
+http://www.iuma.ulpgc.es/users/jmiranda/gnat-rts/main.htm
+
+file:///home/artium/Downloads/A_Linux_kernel_module_implementation_of_restricted.pdf
+http://www.pegasoft.ca/resources/boblap/16.html
+https://sourceforge.net/projects/cortex-gnat-rts/
+http://computer-programming-forum.com/44-ada/2227f74c82f45451.htm
+
+
+https://gcc.gnu.org/onlinedocs/gcc-4.7.0/gnat_rm/No_005fSecondary_005fStack.html#No_005fSecondary_005fStack
+
+
+https://github.com/damaki/ravenscar-sfp-evb1000
+https://github.com/damaki/ravenscar-full-evb1000
+https://github.com/nocko/zfp-nrf51
+https://github.com/telrob/stm32-ada
+https://github.com/ytomino/drake/wiki
+https://github.com/ytomino/drake
+
+gnatmem ??? 
+
+
+
+
+
+https://sourceforge.net/p/cortex-gnat-rts/code/ci/default/tree/common/s-secsta.adb
+https://www.seas.gwu.edu/~adagroup/adalib_html/system-html/s-secsta.html
+https://www2.adacore.com/gap-static/GNAT_Book/html/rts/s-secsta__adb.htm
+
+https://docs.adacore.com/gnat_ugx-docs/html/gnat_ugx/gnat_ugx/the_secondary_stack.html
