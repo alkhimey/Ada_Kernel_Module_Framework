@@ -11,7 +11,7 @@ library project gnat is
       Basic_Switches := ("-gnat05", "-O0", "-g3", "-x", "-a", "-gnatg", "-gnatd.n");
 
       for Default_Switches ("Ada") use Basic_Switches;
-      for Global_Configuration_Pragmas use "../gnat.adc";
+      for Global_Configuration_Pragmas use "gnat.adc";
    
    end Builder;
 
