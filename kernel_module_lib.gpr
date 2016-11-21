@@ -13,7 +13,7 @@ project Kernel_Module_Lib is
    
 
    package Builder is
-      for Default_Switches ("Ada") use ("-gnat05", "-x", "-a", "-gnatg", 
+      for Default_Switches ("Ada") use ("-gnat05", "-x", "-a", 
          "-gnaty-I",
          "-gnaty+d", "-O2");
          

@@ -2,11 +2,11 @@
 --                                                                          --
 --                         GNAT RUN-TIME COMPONENTS                         --
 --                                                                          --
---                       S Y S T E M . I M G _ I N T                        --
+--                       S Y S T E M . E X N _ I N T                        --
 --                                                                          --
---                                 S p e c                                  --
+--                                 B o d y                                  --
 --                                                                          --
---          Copyright (C) 1992-2009, Free Software Foundation, Inc.         --
+--          Copyright (C) 1992-2014, Free Software Foundation, Inc.         --
 --                                                                          --
 -- GNAT is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -29,31 +29,42 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
---  This package contains the routines for supporting the Image attribute for
---  signed integer types up to Size Integer'Size, and also for conversion
---  operations required in Text_IO.Integer_IO for such types.
+package body System.Exn_Int is
 
-package System.Img_Int is
-   pragma Pure;
+   -----------------
+   -- Exn_Integer --
+   -----------------
 
-   procedure Image_Integer
-     (V : Integer;
-      S : in out String;
-      P : out Natural);
-   --  Computes Integer'Image (V) and stores the result in S (1 .. P)
-   --  setting the resulting value of P. The caller guarantees that S
-   --  is long enough to hold the result, and that S'First is 1.
+   function Exn_Integer (Left : Integer; Right : Natural) return Integer is
+      pragma Suppress (Division_Check);
+      pragma Suppress (Overflow_Check);
 
-   pragma Export (C, Image_Integer, "system__img_int__image_integer");
+      Result : Integer := 1;
+      Factor : Integer := Left;
+      Exp    : Natural := Right;
 
-   procedure Set_Image_Integer
-     (V : Integer;
-      S : in out String;
-      P : in out Natural);
-   --  Stores the image of V in S starting at S (P + 1), P is updated to point
-   --  to the last character stored. The value stored is identical to the value
-   --  of Integer'Image (V) except that no leading space is stored when V is
-   --  non-negative. The caller guarantees that S is long enough to hold the
-   --  result. S need not have a lower bound of 1.
+   begin
+      --  We use the standard logarithmic approach, Exp gets shifted right
+      --  testing successive low order bits and Factor is the value of the
+      --  base raised to the next power of 2.
 
-end System.Img_Int;
+      --  Note: it is not worth special casing base values -1, 0, +1 since
+      --  the expander does this when the base is a literal, and other cases
+      --  will be extremely rare.
+
+      if Exp /= 0 then
+         loop
+            if Exp rem 2 /= 0 then
+               Result := Result * Factor;
+            end if;
+
+            Exp := Exp / 2;
+            exit when Exp = 0;
+            Factor := Factor * Factor;
+         end loop;
+      end if;
+
+      return Result;
+   end Exn_Integer;
+
+end System.Exn_Int;

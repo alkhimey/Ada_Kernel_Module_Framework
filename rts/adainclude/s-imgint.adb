@@ -70,14 +70,26 @@ package body System.Img_Int is
       S : in out String;
       P : in out Natural)
    is
+      D : Integer := 0; -- will store number of digits
    begin
-      if T <= -10 then
-         Set_Digits (T / 10, S, P);
+
+      declare
+         T2 : Integer := T;
+      begin
+         while T2 /= 0 loop
+            D := D + 1;
+            T2 := T2 / 10;
+         end loop;
+      end;
+
+      if D = 0 then
          P := P + 1;
-         S (P) := Character'Val (48 - (T rem 10));
+         S (P) := '0';
       else
-         P := P + 1;
-         S (P) := Character'Val (48 - T);
+         for I in reverse 0 .. D - 1 loop
+            P := P + 1;
+            S (P) := Character'Val (48 - (T / 10 ** I) mod 10);
+         end loop;
       end if;
    end Set_Digits;
 
