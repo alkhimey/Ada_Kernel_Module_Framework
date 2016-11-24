@@ -1,5 +1,5 @@
 obj-m += hello.o
-hello-y := main.o lib/libadakernelmodule.a 
+hello-y := main.o lib/libadakernelmodule.a rts/adalib/libgnat.a
 
 all:
 	gprbuild -Prts/gnat.gpr --create-missing-dirs

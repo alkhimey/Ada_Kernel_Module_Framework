@@ -44,8 +44,6 @@ package System.Img_Int is
    --  setting the resulting value of P. The caller guarantees that S
    --  is long enough to hold the result, and that S'First is 1.
 
-   pragma Export (C, Image_Integer, "system__img_int__image_integer");
-
    procedure Set_Image_Integer
      (V : Integer;
       S : in out String;

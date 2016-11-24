@@ -17,7 +17,11 @@ library project gnat is
 
    package Compiler is
       for Default_Switches ("Ada") use
-	("-O0",	"-g3", "-ffunction-sections", "-fdata-sections");
+    ("-O0", 
+     "-g3",
+     "-ffunction-sections", 
+     "-fdata-sections",
+     "-mcmodel=kernel");         -- required for kernel development;
    end Compiler;
 
 

@@ -88,7 +88,7 @@ package body System.Img_Int is
       else
          for I in reverse 0 .. D - 1 loop
             P := P + 1;
-            S (P) := Character'Val (48 - (T / 10 ** I) mod 10);
+            S (P) := Character'Val (48 - (T / 10 ** I) rem 10);
          end loop;
       end if;
    end Set_Digits;
