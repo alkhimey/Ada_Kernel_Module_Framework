@@ -16,11 +16,6 @@ private
        Entity        => Ada_Foo,
        External_Name => "ada_foo");
 
-   --  pragma Import
-   --     (Convention    => C,
-   --      Entity        => Print_Kernel,
-   --      External_Name => "printk");
-
    pragma Import
      (Convention    => C,
       Entity        => Print_Kernel,

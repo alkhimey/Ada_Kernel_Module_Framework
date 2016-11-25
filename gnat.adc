@@ -4,9 +4,10 @@
 --  Author          : Luke A. Guest
 --  Created On      : Thu Jun 14 12:04:52 2012
 --  Licence         : See LICENCE in the root directory.
+
 --  pragma Restrictions (No_Obsolescent_Features);
-pragma Discard_Names;
-pragma Restrictions (No_Enumeration_Maps);
+--  pragma Discard_Names;
+--  pragma Restrictions (No_Enumeration_Maps);
 pragma Normalize_Scalars;
 pragma Restrictions (No_Exception_Propagation);
 pragma Restrictions (No_Exception_Registration);
@@ -33,7 +34,7 @@ pragma Restrictions (No_Dynamic_Attachment);
 pragma Restrictions (No_Dynamic_Priorities);
 pragma Restrictions (No_Entry_Calls_In_Elaboration_Code);
 pragma Restrictions (No_Entry_Queue);
-pragma Restrictions (No_Fixed_Point);
+--  pragma Restrictions (No_Fixed_Point);
 pragma Restrictions (No_Io);
 pragma Restrictions (No_Implicit_Heap_Allocations);
 pragma Restrictions (No_Initialize_Scalars);
