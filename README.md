@@ -1,7 +1,9 @@
 Ada Linux Kernel Module Toolkit
 ===============================
 
-This toolkit allow writing Linux kernel modules using the Ada programming langauge.
+This is work in progress.
+
+This toolkit allows writing Linux kernel modules using the Ada programming langauge.
 
 ### Prerequirments
 

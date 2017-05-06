@@ -1,4 +1,5 @@
---  with Interfaces.C;
+with Interfaces.C;
+
 
 package Ada_Foo_Pack is
 

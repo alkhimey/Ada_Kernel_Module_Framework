@@ -31,13 +31,13 @@
 
 pragma Compiler_Unit_Warning;
 
-with System.Parameters;
+--  with System.Parameters;
 
 with Ada.Unchecked_Conversion;
 
 package body System.Secondary_Stack is
 
-   use type System.Parameters.Size_Type;
+   --  use type System.Parameters.Size_Type;
    use type SSE.Storage_Offset;
 
    --  TODO: Use this

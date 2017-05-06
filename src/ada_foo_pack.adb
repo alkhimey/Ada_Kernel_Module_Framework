@@ -1,5 +1,7 @@
 --  with Ada.Characters.Latin_1;
 
+with Linux.Kernel_IO;
+
 package body Ada_Foo_Pack is
 
    type Color_Type is (RED, BLACK, PURPLE_BLUE);
@@ -23,6 +25,8 @@ package body Ada_Foo_Pack is
       Print_Kernel (S5);
       Print_Kernel (S6);
       Print_Kernel (S7);
+
+      Linux.Kernel_IO.Put_Line(Item => "C Bindings are working...");
    end Ada_Foo;
 
 begin
