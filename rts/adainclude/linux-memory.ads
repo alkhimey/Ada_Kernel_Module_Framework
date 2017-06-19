@@ -65,8 +65,6 @@ package Linux.Memory is
    type GFP_Flag_Type is array (GFP_Flags_Index_Type) of Boolean;
    pragma Pack (GFP_Flag_Type);
 
-
- 
    --  GFP_ATOMIC users can not sleep and need the allocation to succeed.
    --    A lower watermark is applied to allow access to "atomic reserves"
    --
@@ -81,9 +79,9 @@ package Linux.Memory is
    --    direct reclaim.
    --
    GFP_KERNEL : constant GFP_Flag_Type :=
-      (GFP_DIRECT_RECLAIM_BIT => True,
-       GFP_KSWAPD_RECLAIM_BIT => True,
-       GFP_IO_BIT             => True,
+      (GFP_DIRECT_RECLAIM_BIT |
+       GFP_KSWAPD_RECLAIM_BIT |
+       GFP_IO_BIT             |
        GFP_FS_BIT             => True,
        others                 => False);
 
@@ -91,46 +89,50 @@ package Linux.Memory is
    --    reclaim, start physical IO or use any filesystem callback.
    --
    GFP_NOWAIT : constant GFP_Flag_Type :=
-      (GFP_KSWAPD_RECLAIM_BIT    => True,
-       others                => False);
+      (GFP_KSWAPD_RECLAIM_BIT => True,
+       others                 => False);
 
    --  GFP_NOIO will use direct reclaim to discard clean pages or slab pages
    --    that do not require the starting of any physical IO.
    --
    GFP_NOIO : constant GFP_Flag_Type :=
-      (GFP_RECLAIM_BIT           => True,
-       others                => False);       
-   
+      (GFP_DIRECT_RECLAIM_BIT |
+       GFP_KSWAPD_RECLAIM_BIT => True,
+       others                 => False);
+
    --  GFP_NOFS will use direct reclaim but will not use any filesystem
    --    interfaces.
-   --        
+   --
    GFP_NOFS : constant GFP_Flag_Type :=
-      (GFP_RECLAIM_BIT           => True,
-       GFP_IO_BIT                => True,
-       others                => False);  
-   
+      (GFP_DIRECT_RECLAIM_BIT |
+       GFP_KSWAPD_RECLAIM_BIT |
+       GFP_IO_BIT             => True,
+       others                 => False);
+
    --  GFP_TEMPORARY
    --     See https://lwn.net/Articles/713076/
-   --    
+   --
    GFP_TEMPORARY : constant GFP_Flag_Type :=
-      (GFP_RECLAIM_BIT           => True,
-       GFP_IO_BIT                => True,
-       GFP_FS_BIT                => True,
-       GFP_RECLAIMABLE_BIT       => True,
-       others                => False);          
-   
+      (GFP_DIRECT_RECLAIM_BIT |
+       GFP_KSWAPD_RECLAIM_BIT |
+       GFP_IO_BIT             |
+       GFP_FS_BIT             |
+       GFP_RECLAIMABLE_BIT    => True,
+       others                 => False);
+
    --  GFP_USER is for userspace allocations that also need to be directly
    --    accessibly by the kernel or hardware. It is typically used by hardware
    --    for buffers that are mapped to userspace (e.g. graphics) that hardware
    --    still must DMA to. cpuset limits are enforced for these allocations.
-   --    
+   --
    GFP_USER : constant GFP_Flag_Type :=
-      (GFP_RECLAIM_BIT           => True,
-       GFP_IO_BIT                => True,
-       GFP_FS_BIT                => True,
-       GFP_HARDWALL_BIT          => True,
-       others                => False);  
-   
+      (GFP_DIRECT_RECLAIM_BIT |
+       GFP_KSWAPD_RECLAIM_BIT |
+       GFP_IO_BIT             |
+       GFP_FS_BIT             |
+       GFP_HARDWALL_BIT       => True,
+       others                 => False);
+
    --  GFP_DMA exists for historical reasons and should be avoided where
    --    possible. The flags indicates that the caller requires that the lowest
    --    zone be used (ZONE_DMA or 16M on x86-64). Ideally, this would be
@@ -139,15 +141,15 @@ package Linux.Memory is
    --    ZONE_DMA and treat the lowest zone as a type of emergency reserve.
    --
    GFP_DMA : constant GFP_Flag_Type :=
-      (GFP_DMA_BIT               => True,
-       others                => False);  
+      (GFP_DMA_BIT            => True,
+       others                 => False);
 
    --  GFP_DMA32 is similar to GFP_DMA except that the caller requires a 32-bit
    --     address.
    --
    GFP_DMA32 : constant GFP_Flag_Type :=
-      (GFP_DMA32_BIT             => True,
-       others                => False);  
+      (GFP_DMA32_BIT          => True,
+       others                 => False);
 
    --  GFP_HIGHUSER is for userspace allocations that may be mapped to
    --    userspace, do not need to be directly accessible by the kernel but
@@ -156,49 +158,53 @@ package Linux.Memory is
    --    limitations.
    --
    GFP_HIGHUSER : constant GFP_Flag_Type :=
-      (GFP_RECLAIM_BIT           => True,
-       GFP_IO_BIT                => True,
-       GFP_FS_BIT                => True,
-       GFP_HARDWALL_BIT          => True,
-       GFP_GFP_HIGHMEM_BIT       => True
-       others                => False);  
+      (GFP_DIRECT_RECLAIM_BIT |
+       GFP_KSWAPD_RECLAIM_BIT |
+       GFP_IO_BIT             |
+       GFP_FS_BIT             |
+       GFP_HARDWALL_BIT       |
+       GFP_HIGHMEM_BIT        => True,
+       others                 => False);
 
    --  GFP_HIGHUSER_MOVABLE is for userspace allocations that the kernel does
    --    not need direct access to but can use kmap() when access is required.
    --    They are expected to be movable via page reclaim or page migration.
    --    Typically, pages on the LRU would also be allocated with
    --    GFP_HIGHUSER_MOVABLE.
-   --       
+   --
    GFP_HIGHUSER_MOVABLE : constant GFP_Flag_Type :=
-      (GFP_RECLAIM_BIT           => True,
-       GFP_IO_BIT                => True,
-       GFP_FS_BIT                => True,
-       GFP_HARDWALL_BIT          => True,
-       GFP_GFP_HIGHMEM_BIT       => True,
-       GFP_MOVABLE_BIT           => True,
-       others                => False); 
+      (GFP_DIRECT_RECLAIM_BIT |
+       GFP_KSWAPD_RECLAIM_BIT |
+       GFP_IO_BIT             |
+       GFP_FS_BIT             |
+       GFP_HARDWALL_BIT       |
+       GFP_HIGHMEM_BIT        |
+       GFP_MOVABLE_BIT        => True,
+       others                 => False);
 
    --  GFP_TRANSHUGE is used for THP allocations. They are compound allocations
    --    that will fail quickly if memory is not available and will not wake
    --    kswapd on failure.
    --
    GFP_TRANSHUGE : constant GFP_Flag_Type :=
-      (GFP_RECLAIM_BIT        |
+      (GFP_DIRECT_RECLAIM_BIT |
        GFP_IO_BIT             |
        GFP_FS_BIT             |
        GFP_HARDWALL_BIT       |
-       GFP_GFP_HIGHMEM_BIT    |
+       GFP_HIGHMEM_BIT        |
        GFP_MOVABLE_BIT        |
        GFP_COMP_BIT           |
        GFP_NOMEMALLOC_BIT     |
        GFP_NORETRY_BIT        |
        GFP_NOWARN_BIT         => True,
-       GFP_KSWAPD_RECLAIM_BIT => False,
-       others                 => False); 
-
+       others                 => False);
 
    function kmalloc (Size     : System.CRTL.size_t;
                      GFP_Flag : GFP_Flag_Type) return System.Address;
+
+   --  It is also possible to import __kmalloc but that is internal detail
+   --  and less safer.
+   --
    pragma Import (C, kmalloc, "kmalloc_wrapper");
 
    procedure kfree (Ptr : System.Address);
