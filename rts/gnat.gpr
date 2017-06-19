@@ -1,5 +1,4 @@
 library project gnat is
-
    for Source_Dirs use ("adainclude");
    for Object_Dir use "obj";
    for Library_Dir use "adalib";

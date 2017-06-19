@@ -125,8 +125,10 @@ package System.CRTL is
    function fputs (Strng : chars; Stream : FILEs) return int;
    pragma Import (C, fputs, "fputs");
 
-   procedure free (Ptr : System.Address);
-   pragma Import (C, free, "free");
+   --  Note: free cant be used in the kernel.
+   --
+   --  procedure free (Ptr : System.Address);
+   --  pragma Import (C, free, "free");
 
    function freopen
      (filename : chars;
@@ -163,8 +165,11 @@ package System.CRTL is
    function lseek (fd : int; offset : off_t; direction : int) return off_t;
    pragma Import (C, lseek, "lseek");
 
-   function malloc (Size : size_t) return System.Address;
-   pragma Import (C, malloc, "malloc");
+   --  Note: malloc cant be used in the kernel. Use functions from the
+   --        Linux.Memory package.
+   --
+   --  function malloc (Size : size_t) return System.Address;
+   --  pragma Import (C, malloc, "malloc");
 
    procedure memcpy (S1 : System.Address; S2 : System.Address; N : size_t);
    pragma Import (C, memcpy, "memcpy");

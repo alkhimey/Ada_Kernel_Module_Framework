@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
---          Copyright (C) 2016, Artium Nihamkin artium@nihamkin.com         --
+--          Copyright (C) 2017, Artium Nihamkin, artium@nihamkin.com        --
 --                                                                          --
 -- This specification is derived from the Ada Reference Manual for use with --
 -- GNAT. The copyright notice above, and the license provisions that follow --
@@ -33,46 +33,45 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 
---  Note: the generic subpackages of Text_IO (Integer_IO, Fixed_IO,
---  Modular_IO, Decimal_IO and Enumeration_IO) appear as private children in
---  GNAT. These children are with'ed automatically if they are referenced, so
---  this rearrangement is invisible to user programs, but has the advantage
---  that only the needed parts of Text_IO are processed and loaded.
+--  This package provides kernel printing facilities. It's structure is based
+--  on the Text_IO standard library package.
 
-with System;
+--  with System;
 
 package Linux.Kernel_IO is
    pragma Elaborate_Body;
 
-   type Kernel_Level_Type is
-     (EMERGENCY,  -- system is unusable
-      ALERT,      -- action must be taken immediately
-      CRITICAL,   -- critical conditions
-      ERROR,      -- error conditions
-      WARNING,    -- warning conditions
-      NOTICE,     -- normal but significant condition
-      INFO,       -- informational
-      DEBUG,      -- debug-level messages
-      NONE        -- continue non terminated line or use default
-     );
+   type Printk_Level_Type is
+      (DEFAULT,
+       EMERGENCY, -- system is unusable
+       ALERT,     -- action must be taken immediately
+       CRITICAL,  -- critical conditions
+       ERROR,     -- error conditions
+       WARNING,   -- warning conditions
+       NOTICE,    -- normal but significant condition
+       INFO,      -- informational
+       DEBUG      -- debug-level messages
+      );
 
-   --  procedure New_Line;
-   ----------------------------
-   -- Character Input-Output --
-   ----------------------------
-   --  procedure Put
-   --  (Item : Character);
+   for Printk_Level_Type use
+      (DEFAULT  => 0, EMERGENCY => 1, ALERT   => 2,
+       CRITICAL => 3, ERROR     => 4, WARNING => 5,
+       NOTICE   => 6, INFO      => 7, DEBUG   => 8
+      );
+
+   pragma Convention (C, Printk_Level_Type);
 
    -------------------------
    -- String Input-Output --
    -------------------------
-   procedure Put
-     (Item         : String;
-      Kernel_Level : Kernel_Level_Type := NONE);
+
+   --  Notice that there is not Put function. It is explained
+   --  in kern_levels.h why it is not supported: "a continued
+   --  line is not SMP-safe".
 
    procedure Put_Line
      (Item         : String;
-      Kernel_Level : Kernel_Level_Type := NONE);
+      Kernel_Level : Printk_Level_Type := DEFAULT);
 
    ---------------------------------------
    -- Generic packages for Input-Output --

@@ -1,18 +1,17 @@
 #include <linux/module.h> /* Needed by all modules */
-#include <linux/kernel.h> /* Needed for KERN_INFO */
+#include <linux/slab.h>
 
 extern void adakernelmoduleinit (void);
 //extern void adakernelmodulefinal (void);
 
 extern void ada_foo(void);
 
-void print_kernel(char* s)
-{
-  printk(KERN_ERR "%s\n", s);
-}
+
 
 int init_module(void)
 {
+
+    kmalloc(1,1);
     adakernelmoduleinit();
     printk(KERN_ERR "Hello Ada.\n");
     ada_foo();

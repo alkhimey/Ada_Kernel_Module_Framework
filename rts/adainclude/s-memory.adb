@@ -46,20 +46,30 @@ pragma Compiler_Unit_Warning;
 with System.CRTL;
 with System.Parameters;
 with System.Soft_Links;
+with Linux.Memory;
 
 package body System.Memory is
 
    use System.Soft_Links;
 
-   function c_malloc (Size : System.CRTL.size_t) return System.Address
-    renames System.CRTL.malloc;
+   function c_realloc
+     (Ptr : System.Address; Size : System.CRTL.size_t) return System.Address;
+
+   function c_malloc (Size  : System.CRTL.size_t;
+                      Flags : Linux.Memory.GFP_Flag_Type)
+    return System.Address
+    renames Linux.Memory.kmalloc;
 
    procedure c_free (Ptr : System.Address)
-     renames System.CRTL.free;
+     renames Linux.Memory.kfree;
 
    function c_realloc
-     (Ptr : System.Address; Size : System.CRTL.size_t) return System.Address
-     renames System.CRTL.realloc;
+     (Ptr : System.Address; Size : System.CRTL.size_t) return System.Address is
+   begin
+      raise Program_Error; -- Not implemented yet
+      return System.Null_Address;
+   end c_realloc;
+   --  renames System.CRTL.realloc;
 
    -----------
    -- Alloc --
@@ -78,13 +88,7 @@ package body System.Memory is
          raise Storage_Error with "object too large";
       end if;
 
-      if Parameters.No_Abort then
-         Result := c_malloc (System.CRTL.size_t (Size));
-      else
-         Abort_Defer.all;
-         Result := c_malloc (System.CRTL.size_t (Size));
-         Abort_Undefer.all;
-      end if;
+      Result := c_malloc (System.CRTL.size_t (Size), Linux.Memory.GFP_KERNEL);
 
       if Result = System.Null_Address then
 
@@ -104,7 +108,18 @@ package body System.Memory is
          --  efficiency.
 
          if Size = 0 then
-            return Alloc (1);
+
+            --  Unrolled recursion of "return Alloc (1);"
+            --
+            Result := c_malloc (System.CRTL.size_t (1),
+                                Linux.Memory.GFP_KERNEL);
+
+            if Result = System.Null_Address then
+               raise Storage_Error with "heap exhausted";
+            end if;
+
+            return Result;
+
          end if;
 
          raise Storage_Error with "heap exhausted";
@@ -119,13 +134,7 @@ package body System.Memory is
 
    procedure Free (Ptr : System.Address) is
    begin
-      if Parameters.No_Abort then
-         c_free (Ptr);
-      else
-         Abort_Defer.all;
-         c_free (Ptr);
-         Abort_Undefer.all;
-      end if;
+      c_free (Ptr);
    end Free;
 
    -------------
@@ -143,13 +152,7 @@ package body System.Memory is
          raise Storage_Error with "object too large";
       end if;
 
-      if Parameters.No_Abort then
-         Result := c_realloc (Ptr, System.CRTL.size_t (Size));
-      else
-         Abort_Defer.all;
-         Result := c_realloc (Ptr, System.CRTL.size_t (Size));
-         Abort_Undefer.all;
-      end if;
+      Result := c_realloc (Ptr, System.CRTL.size_t (Size));
 
       if Result = System.Null_Address then
          raise Storage_Error with "heap exhausted";

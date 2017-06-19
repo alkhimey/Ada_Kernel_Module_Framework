@@ -1,9 +1,9 @@
 Ada Linux Kernel Module Toolkit
 ===============================
 
-This is work in progress.
+_NOTICE: This is work in progress_
 
-This toolkit allows writing Linux kernel modules using the Ada programming langauge.
+This toolkit provide the ability to program Linux kernel modules using the Ada programming langauge.
 
 ### Prerequirments
 
@@ -44,6 +44,19 @@ Remove the module from the kernel:
 See message log:
 
 ```dmesg | tail```
+
+### Directory structure
+
+
+* **rts** - The runtime system modified to be able to run in the kernel.
+
+* **rts\kernel** - Bindings to linux kernel functions that are required by the RTS.
+
+* **bindings** - Bindings to linux kernel functions that can be used from the modules code.
+
+* **src** - The actual source of the kernel module.
+
+* **main.c** - A C wrapper that is used to register ```init_module``` and ```cleanup_module```. This can not be done in pure Ada as there are Macros involved. 
 
 ### GPLv3 License
 

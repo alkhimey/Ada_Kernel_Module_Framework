@@ -6,7 +6,7 @@
 --                                                                          --
 --                                 B o d y                                  --
 --                                                                          --
---          Copyright (C) 1992-2016, Free Software Foundation, Inc.         --
+--          Copyright (C) 2017, Artium Nihamkin, artium@nihamkin.com        --
 --                                                                          --
 -- GNAT is free software;  you can  redistribute it  and/or modify it under --
 -- terms of the  GNU General Public License as published  by the Free Soft- --
@@ -32,65 +32,26 @@ with Interfaces.C;
 with Interfaces.C.Strings;
 
 package body Linux.Kernel_IO is
-   
-   -- TODO: ASCII start of header?
-   KERNEL_LEVEL_CHAR : constant array (Kernel_Level_Type) of Character :=
-     (EMERGENCY => '0',
-      ALERT     => '1',
-      CRITICAL  => '2',
-      ERROR     => '3',
-      WARNING   => '4',
-      NOTICE    => '5',
-      INFO      => '6',
-      DEBUG     => '7',
-      NONE      => '?'
-     );
-   
-   procedure Print_Kernel_Chars (S : Interfaces.C.Strings.chars_ptr);
-   
+
+   procedure Printk_Wrapper (S     : Interfaces.C.Strings.chars_ptr;
+                            Level : Printk_Level_Type);
+
    pragma Import
      (Convention    => C,
-      Entity        => Print_Kernel_Chars,
-      External_Name => "print_kernel_chars");
-
-   --  procedure New_Line 
-   --  begin
-   --    Put (ASCII.LF);
-   --  end New_Line;
-
-   --  procedure Put 
-   --    (Item : Character) 
-   --  is
-   --     Str : String(1..1);
-   --     Chars : Interfaces.C.Strings.Chars_Ptr; 
-   --  begin
-   --     Str(1) := Item;
-   --     Chars  := New_String(Str);
-   --     Print_Kernel_Chars(S);
-   --  end;
-
-   procedure Put 
-     (Item         : String;
-      Kernel_Level : Kernel_Level_Type := NONE) 
-   is
-      Chars : Interfaces.C.Strings.Chars_Ptr := Interfaces.C.Strings.New_String (Item);
-   begin
-      Print_Kernel_Chars (Chars);
-      Interfaces.C.Strings.Free (Chars);
-   end;
-
-   
+      Entity        => Printk_Wrapper,
+      External_Name => "printk_wrapper");
 
    procedure Put_Line
      (Item         : String;
-      Kernel_Level : Kernel_Level_Type := NONE) 
+      Kernel_Level : Printk_Level_Type := DEFAULT)
    is
-      Chars : Interfaces.C.Strings.Chars_Ptr := Interfaces.C.Strings.New_String (Item & ASCII.LF);
+      Chars : Interfaces.C.Strings.chars_ptr :=
+         Interfaces.C.Strings.New_String (Item);
    begin
-      Print_Kernel_Chars (Chars);
+      Printk_Wrapper (Chars, Kernel_Level);
       Interfaces.C.Strings.Free (Chars);
    end Put_Line;
-   
+
 begin
    null;
 end Linux.Kernel_IO;

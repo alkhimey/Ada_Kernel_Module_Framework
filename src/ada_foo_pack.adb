@@ -18,15 +18,15 @@ package body Ada_Foo_Pack is
       S6 : String := Unsigned_Type'Image(42) & Character'Val (0);
       S7 : String := Float_Type'Image(424.242) & Character'Val (0);
    begin
-      Print_Kernel (S1);
-      Print_Kernel (S2);
-      Print_Kernel (S3);
-      Print_Kernel (S4);
-      Print_Kernel (S5);
-      Print_Kernel (S6);
-      Print_Kernel (S7);
+      Linux.Kernel_IO.Put_Line (S1);
+      Linux.Kernel_IO.Put_Line (S2);
+      Linux.Kernel_IO.Put_Line (S3);
+      Linux.Kernel_IO.Put_Line (S4);
+      Linux.Kernel_IO.Put_Line (S5);
+      Linux.Kernel_IO.Put_Line (S6);
+      Linux.Kernel_IO.Put_Line (S7);
 
-      Linux.Kernel_IO.Put_Line(Item => "C Bindings are working...");
+      --  Linux.Kernel_IO.Put_Line(Item => "C Bindings are working...");
    end Ada_Foo;
 
 begin
