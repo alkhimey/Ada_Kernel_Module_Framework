@@ -48,15 +48,15 @@ See message log:
 ### Directory structure
 
 
-* **rts** - The runtime system modified to be able to run in the kernel.
+* **rts** - The runtime system that was modified to be able to run in the kernel.
 
-* **rts\kernel** - Bindings to linux kernel functions that are required by the RTS.
-
-* **bindings** - Bindings to linux kernel functions that can be used from the modules code.
+* **rts\linux-<package>.adx** - Files that contain bindings to Linux kernel functions that are required by the RTS or the module.
 
 * **src** - The actual source of the kernel module.
 
 * **main.c** - A C wrapper that is used to register ```init_module``` and ```cleanup_module```. This can not be done in pure Ada as there are Macros involved. 
+
+* **linux-wrappers.c** - Some C functions require a wrapper. For example is a function is inline or a macro.
 
 ### GPLv3 License
 
