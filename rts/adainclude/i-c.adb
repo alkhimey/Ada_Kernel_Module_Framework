@@ -113,7 +113,7 @@ package body Interfaces.C is
 
          loop
             if From > Item'Last then
-               raise Constraint_Error; -- TODO: Revert to Terminator_Error
+               raise Terminator_Error;
             elsif Item (From) = nul then
                exit;
             else
@@ -155,7 +155,7 @@ package body Interfaces.C is
          From := Item'First;
          loop
             if From > Item'Last then
-               raise Constraint_Error; -- TODO: Revert to Terminator_Error
+               raise Terminator_Error;
             elsif Item (From) = nul then
                exit;
             else
@@ -207,7 +207,7 @@ package body Interfaces.C is
 
          loop
             if From > Item'Last then
-               raise Constraint_Error; -- TODO: Revert to Terminator_Error
+               raise Terminator_Error;
             elsif Item (From) = wide_nul then
                exit;
             else
@@ -249,7 +249,7 @@ package body Interfaces.C is
          From := Item'First;
          loop
             if From > Item'Last then
-               raise Constraint_Error; -- TODO: Revert to Terminator_Error
+               raise Terminator_Error;
             elsif Item (From) = wide_nul then
                exit;
             else
@@ -300,7 +300,7 @@ package body Interfaces.C is
 
          loop
             if From > Item'Last then
-               raise Constraint_Error; -- TODO: Revert to Terminator_Error
+               raise Terminator_Error;
             elsif Item (From) = char16_t'Val (0) then
                exit;
             else
@@ -342,7 +342,7 @@ package body Interfaces.C is
          From := Item'First;
          loop
             if From > Item'Last then
-               raise Constraint_Error; -- TODO: Revert to Terminator_Error
+               raise Terminator_Error;
             elsif Item (From) = char16_t'Val (0) then
                exit;
             else
@@ -393,7 +393,7 @@ package body Interfaces.C is
 
          loop
             if From > Item'Last then
-               raise Constraint_Error; -- TODO: Revert to Terminator_Error
+               raise Terminator_Error;
             elsif Item (From) = char32_t'Val (0) then
                exit;
             else
@@ -435,7 +435,7 @@ package body Interfaces.C is
          From := Item'First;
          loop
             if From > Item'Last then
-               raise Constraint_Error; -- TODO: Revert to Terminator_Error
+               raise Terminator_Error;
             elsif Item (From) = char32_t'Val (0) then
                exit;
             else

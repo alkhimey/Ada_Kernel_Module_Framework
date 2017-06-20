@@ -203,8 +203,7 @@ package body Interfaces.C.Strings is
 
    begin
       if Item = Null_Ptr then
-         --  raise Dereference_Error;
-         --  TODO: Revert when exceptions will be working
+         raise Dereference_Error;
          return 0;
       end if;
 
@@ -231,8 +230,7 @@ package body Interfaces.C.Strings is
       elsif Nul_Check
         and then Position_Of_Nul (Into => Item.all) > Item'Last
       then
-         --  raise Terminator_Error;
-         --  TODO: Revert when exceptions will be working
+         raise Terminator_Error;
          return Null_Ptr;
       else
          return To_chars_ptr (Item (Item'First)'Address);
@@ -253,8 +251,7 @@ package body Interfaces.C.Strings is
 
    begin
       if Check and then Offset + Chars'Length  > Strlen (Item) then
-         --  raise Update_Error;
-         --  TODO: Revert when exceptions will be working
+         raise Update_Error;
          return;
       end if;
 
@@ -289,8 +286,7 @@ package body Interfaces.C.Strings is
 
    begin
       if Item = Null_Ptr then
-         --  raise Dereference_Error;
-         --  TODO: Revert when exceptions will be working
+         raise Dereference_Error;
          return (0 => nul);
       end if;
 
@@ -309,8 +305,7 @@ package body Interfaces.C.Strings is
    is
    begin
       if Item = Null_Ptr then
-         --  raise Dereference_Error;
-         --  TODO: Revert when exceptions will be working
+         raise Dereference_Error;
          return (0 => nul);
       end if;
 
@@ -352,8 +347,7 @@ package body Interfaces.C.Strings is
       --    To_Ada (Value (Item, Length) & nul);
 
       if Item = Null_Ptr then
-         --  raise Dereference_Error;
-         --  TODO: Revert when exceptions will be working
+         raise Dereference_Error;
          return "";
       end if;
 

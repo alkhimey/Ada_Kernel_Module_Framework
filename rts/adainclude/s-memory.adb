@@ -45,12 +45,12 @@ pragma Compiler_Unit_Warning;
 
 with System.CRTL;
 with System.Parameters;
-with System.Soft_Links;
+--  with System.Soft_Links;
 with Linux.Memory;
 
 package body System.Memory is
 
-   use System.Soft_Links;
+   --  use System.Soft_Links;
 
    function c_realloc
      (Ptr : System.Address; Size : System.CRTL.size_t) return System.Address;

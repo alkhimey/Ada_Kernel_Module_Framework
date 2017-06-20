@@ -40,7 +40,7 @@ package body System.Secondary_Stack is
    --  use type System.Parameters.Size_Type;
    use type SSE.Storage_Offset;
 
-   --  TODO: Use this
+   --  TODO: Use this (?)
    --  SS_Ratio_Dynamic : constant Boolean :=
    --     Parameters.Sec_Stack_Percentage = Parameters.Dynamic;
 

@@ -137,8 +137,7 @@ package Interfaces.C is
       Count    : out Natural;
       Trim_Nul : Boolean := True);
 
-   --  TODO: Revert when exceptions are implemented
-   --  Terminator_Error : exception;
+   Terminator_Error : exception;
 
    --  The remaining declarations are for Ada 2005 (AI-285)
 

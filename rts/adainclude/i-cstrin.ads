@@ -63,8 +63,7 @@ package Interfaces.C.Strings is
    --  When deallocation is prohibited (eg: cert runtimes) this routine
    --  will raise Program_Error
 
-   --  Dereference_Error : exception;
-   --  TODO: Revert when exceptions are implemented
+   Dereference_Error : exception;
 
    function Value (Item : chars_ptr) return char_array;
 
@@ -92,8 +91,7 @@ package Interfaces.C.Strings is
       Str    : String;
       Check  : Boolean := True);
 
-   --  Update_Error : exception;
-   --  TODO: Revert when exceptions are implemented
+   Update_Error : exception;
 
 private
    type chars_ptr is access all Character;
