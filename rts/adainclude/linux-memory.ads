@@ -202,8 +202,9 @@ package Linux.Memory is
    function kmalloc (Size     : System.CRTL.size_t;
                      GFP_Flag : GFP_Flag_Type) return System.Address;
 
-   --  It is also possible to import __kmalloc but that is internal detail
-   --  and less safer.
+   --  It is also possible to import __kmalloc but that function is 
+   --  internall and might change in future versions of the kernel
+   --  therfore a wrapper around kmalloc macro is used.
    --
    pragma Import (C, kmalloc, "kmalloc_wrapper");
 
