@@ -79,10 +79,6 @@ package GNAT.Source_Info is
    --  package itself. This is useful in identifying and logging information
    --  from within generic templates.
 
-   function Compilation_ISO_Date return String with
-     Import, Convention => Intrinsic;
-   --  Returns date of compilation as a static string "yyyy-mm-dd".
-
    function Compilation_Date return String with
      Import, Convention => Intrinsic;
    --  Returns date of compilation as a static string "mmm dd yyyy". This is
