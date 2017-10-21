@@ -50,13 +50,13 @@ See message log:
 
 * **rts** - The runtime system that was modified to be able to run in the kernel.
 
-* **rts\linux-<package>.adx** - Files that contain bindings to Linux kernel functions that are required by the RTS or the module.
+* **rts\adainclude\linux-[package].adx** - These files contain bindings to Linux kernel functions which are required by the RTS or the module.
 
 * **src** - The actual source of the kernel module.
 
-* **main.c** - A C wrapper that is used to register ```init_module``` and ```cleanup_module```. This can not be done in pure Ada as there are Macros involved. 
+* **main.c** - A C wrapper that is used to register ```init_module``` and ```cleanup_module```. This can not be done in pure Ada as there are C macros involved. 
 
-* **linux-wrappers.c** - Some C functions require a wrapper. For example is a function is inline or a macro.
+* **linux-wrappers.c** - Some C functions require a wrapper. For example a function that is inline or a macro.
 
 ### GPLv3 License
 

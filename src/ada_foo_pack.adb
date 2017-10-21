@@ -10,13 +10,14 @@ package body Ada_Foo_Pack is
    type Float_Type is digits 6;
 
    procedure Ada_Foo is
-      S1 : String := Integer'Image (42) & Character'Val (0);
-      S2 : String := Color_Type'Image (PURPLE_BLUE) & Character'Val (0);
-      S3 : String := Boolean'Image(True)    & Character'Val (0);
-      S4 : String := Fixed_Point_Type'Image(4.2) & Character'Val (0);
-      S5 : String := Integer'Image(-42) & Character'Val (0);
-      S6 : String := Unsigned_Type'Image(42) & Character'Val (0);
-      S7 : String := Float_Type'Image(424.242) & Character'Val (0);
+      S1 : constant String := Integer'Image (42) & Character'Val (0);
+      S2 : constant String :=
+         Color_Type'Image (PURPLE_BLUE) & Character'Val (0);
+      S3 : constant String := Boolean'Image (True)    & Character'Val (0);
+      S4 : constant String := Fixed_Point_Type'Image (4.0) & Character'Val (0);
+      S5 : constant String := Integer'Image (-42) & Character'Val (0);
+      S6 : constant String := Unsigned_Type'Image (42) & Character'Val (0);
+      S7 : constant String := Float_Type'Image (424.242) & Character'Val (0);
    begin
       Linux.Kernel_IO.Put_Line (S1);
       Linux.Kernel_IO.Put_Line (S2);
@@ -26,7 +27,10 @@ package body Ada_Foo_Pack is
       Linux.Kernel_IO.Put_Line (S6);
       Linux.Kernel_IO.Put_Line (S7);
 
-      --  Linux.Kernel_IO.Put_Line(Item => "C Bindings are working...");
+      Linux.Kernel_IO.Put_Line ("C Bindings are working...");
+
+      -- Currently not working:
+      --raise Constraint_Error;
    end Ada_Foo;
 
 begin
