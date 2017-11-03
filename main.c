@@ -15,6 +15,7 @@ int init_module(void)
     adakernelmoduleinit();
     printk(KERN_ERR "Hello Ada.\n");
     ada_foo();
+    printk(KERN_ERR "%s\n", "After Ada");
     
     return 0;
 }

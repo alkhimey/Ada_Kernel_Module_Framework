@@ -27,10 +27,11 @@ package body Ada_Foo_Pack is
       Linux.Kernel_IO.Put_Line (S6);
       Linux.Kernel_IO.Put_Line (S7);
 
-      Linux.Kernel_IO.Put_Line ("C Bindings are working...");
+      Linux.Kernel_IO.Put_Line ("C Bindings are working.");
 
-      -- Currently not working:
-      --raise Constraint_Error;
+      --  Currently not working:
+      --  raise Constraint_Error;
+      --  Linux.Kernel_IO.Put_Line ("Did this run after exception was raised?");
    end Ada_Foo;
 
 begin

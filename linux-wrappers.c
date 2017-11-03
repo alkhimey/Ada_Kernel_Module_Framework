@@ -59,34 +59,34 @@ void printk_wrapper(char* str, PrintkLevelType level)
 {
     switch(level) {
         case DEFAULT:
-            printk(KERN_DEFAULT "%s", str);
+            printk(KERN_DEFAULT "%s\n", str);
             break;
         case EMERGENCY:
-            printk(KERN_EMERG "%s", str);
+            printk(KERN_EMERG "%s\n", str);
             break;
         case ALERT:
-            printk(KERN_ALERT "%s", str);
+            printk(KERN_ALERT "%s\n", str);
             break;
         case CRITICAL:
-            printk(KERN_CRIT "%s", str);
+            printk(KERN_CRIT "%s\n", str);
             break;
         case ERROR:
-            printk(KERN_ERR "%s", str);
+            printk(KERN_ERR "%s\n", str);
             break;
         case WARNING:
-            printk(KERN_WARNING "%s", str);
+            printk(KERN_WARNING "%s\n", str);
             break;
         case NOTICE:
-            printk(KERN_NOTICE "%s", str);
+            printk(KERN_NOTICE "%s\n", str);
             break;
         case INFO:
-            printk(KERN_INFO "%s", str);
+            printk(KERN_INFO "%s\n", str);
             break;
         case DEBUG:
-            printk(KERN_DEBUG "%s", str);
+            printk(KERN_DEBUG "%s\n", str);
             break;
         default:
-            printk(KERN_DEFAULT "%s", str);
+            printk(KERN_DEFAULT "%s\n", str);
     }
 }
 
