@@ -41,7 +41,13 @@
  
 #include <linux/printk.h>
 #include <linux/slab.h>
- 
+#include <linux/kdev_t.h>
+
+/* 
+ * #include <linux/printk.h>
+ *
+ **/
+
 typedef enum {
     DEFAULT   = 0,  
     EMERGENCY = 1, 
@@ -90,10 +96,33 @@ void printk_wrapper(char* str, PrintkLevelType level)
     }
 }
 
+/* 
+ * #include <linux/slab.h>
+ *
+ **/
 
 void *kmalloc_wrapper(size_t size, gfp_t flags) {
     return kmalloc(size, flags);
 }
+
+
+
+/* 
+ * #include <linux/kdev_t.h>
+ *
+ **/
+
+const unsigned minor_max = (1 << MINORBITS) - 1;
+const unsigned major_max = (1 << (sizeof(dev_t) * 8 /* CHAR_BIT */ - MINORBITS)) - 1;
+
+
+
+
+
+
+
+
+
 
 
 
