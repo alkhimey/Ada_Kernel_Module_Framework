@@ -36,35 +36,80 @@ with Interfaces.C.Strings;
 
 package body Linux.Char_Device is
 
---  We will use exception instead of checking return codes...
+   --  type LLSeek_Access_Type is access function (
+   --   File_Access : Linux.FS.File_Access_Type;
+   --   Offset      : Long_Offset_Type;
+   --   Whence      : Whence_Type) return Long_Offset_Type;
 
---  major = register_chrdev(0, DEVICE_NAME, &hr_fops);
+   function Register (
+      Major           : Major_Type;
+      Name            : String;
+      File_Operations : File_Operations_Type)
+   return Major_Type is
 
---  hr_class = class_create(THIS_MODULE, DEVICE_NAME);
-
---  hr_device = device_create(hr_class,
---  NULL, MKDEV(major, 0), NULL, DEVICE_NAME);
-
-   function Register return Major_Type is
+      use type Interfaces.C.unsigned;
+      use type Interfaces.C.int;
 
       function register_chrdev (
          major : Interfaces.C.unsigned;
          name  : Interfaces.C.Strings.chars_ptr;
-         fops  : Interfaces.C.Strings.chars_ptr) return Interfaces.C.unsigned;
+         fops  : File_Operations_Type) return Interfaces.C.int;
 
       pragma Import
         (Convention    => C,
          Entity        => register_chrdev,
-         External_Name => "register_chrdev");
+         External_Name => "register_chrdev_wrapper");
+
+      Name_Chars : Interfaces.C.Strings.chars_ptr :=
+         Interfaces.C.Strings.New_String (Name);
+
+      Ret_Val : Interfaces.C.int;
 
    begin
+      --  http://www.linuxsavvy.com/resources/linux/man/man9/
+      --           register_chrdev.9.html
 
-      return 0;
+      Ret_Val := register_chrdev (
+         Interfaces.C.unsigned (Major),
+         Name_Chars,
+         File_Operations);
+
+      Interfaces.C.Strings.Free (Name_Chars);
+
+      --  TODO: -EINVAL, -EBUSY
+      if Ret_Val < 0 then
+         raise Program_Error;
+      end if;
+
+      return (if Major /= 0 then Major else Major_Type (Ret_Val));
 
    end Register;
 
---  device_destroy(hr_class, MKDEV(major, 0));
---  class_destroy(hr_class);
---  unregister_chrdev(major, DEVICE_NAME);
+   procedure Unregister (
+      Major           : Major_Type;
+      Name            : String)
+   is
+
+      procedure unregister_chrdev (
+         major : Interfaces.C.unsigned;
+         name  : Interfaces.C.Strings.chars_ptr);
+
+      pragma Import
+        (Convention    => C,
+         Entity        => unregister_chrdev,
+         External_Name => "unregister_chrdev_wrapper");
+
+      Name_Chars : Interfaces.C.Strings.chars_ptr :=
+         Interfaces.C.Strings.New_String (Name);
+
+   begin
+
+      unregister_chrdev (
+         Interfaces.C.unsigned (Major),
+         Name_Chars);
+
+      Interfaces.C.Strings.Free (Name_Chars);
+
+   end Unregister;
 
 end Linux.Char_Device;

@@ -1,0 +1,2 @@
+
+sed --in-place 's/[[:space:]]\+$//' file

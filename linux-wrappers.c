@@ -42,6 +42,7 @@
 #include <linux/printk.h>
 #include <linux/slab.h>
 #include <linux/kdev_t.h>
+#include <linux/fs.h>
 
 /* 
  * #include <linux/printk.h>
@@ -116,9 +117,18 @@ const unsigned minor_max = (1 << MINORBITS) - 1;
 const unsigned major_max = (1 << (sizeof(dev_t) * 8 /* CHAR_BIT */ - MINORBITS)) - 1;
 
 
+/**
+ * #include <linux/fs.h>
+ **/
+int register_chrdev_wrapper(unsigned int major, const char*name, struct file_operations*ops)
+{
+    return register_chrdev(major, name, ops);
+}
 
-
-
+void unregister_chrdev_wrapper(unsigned int major, const char *name)
+{
+    unregister_chrdev(major, name);
+}
 
 
 

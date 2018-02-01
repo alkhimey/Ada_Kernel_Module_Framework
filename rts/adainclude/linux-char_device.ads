@@ -32,11 +32,12 @@
 --  This package facilitates creation of character devices.
 --
 
---  CHAR_BIT
-
 with Interfaces.C;
+with Linux.Types;
 
 package Linux.Char_Device is
+
+   package LT renames Linux.Types;
 
    MAJOR_MAX : constant Interfaces.C.unsigned;
    pragma Import (
@@ -47,6 +48,56 @@ package Linux.Char_Device is
 
    type Major_Type is new Integer range 0 .. Integer (MAJOR_MAX);
 
-   function Register return Major_Type;
+   --  Equivalent to struct file_operations
+   --    /usr/src/linux-headers-4.9.0-4-common/include/linux/fs.h
+   --
+   type File_Operations_Type is record
+      Owner                     : LT.Lazy_Pointer_Type;
+      Lock_Less_Seek            : LT.Lazy_Pointer_Type;
+      Read                      : LT.Lazy_Pointer_Type;
+      Write                     : LT.Lazy_Pointer_Type;
+      Read_Iter                 : LT.Lazy_Pointer_Type;
+      Write_Iter                : LT.Lazy_Pointer_Type;
+      Iterate                   : LT.Lazy_Pointer_Type;
+      Iterate_Shared            : LT.Lazy_Pointer_Type;
+      Poll                      : LT.Lazy_Pointer_Type;
+      Unlocked_IOCTL            : LT.Lazy_Pointer_Type;
+      Compact_IOCTL             : LT.Lazy_Pointer_Type;
+      Memory_Map                : LT.Lazy_Pointer_Type;
+      Open                      : LT.Lazy_Pointer_Type;
+      Flush                     : LT.Lazy_Pointer_Type;
+      Release                   : LT.Lazy_Pointer_Type;
+      F_Sync                    : LT.Lazy_Pointer_Type;
+      F_Async_Sync              : LT.Lazy_Pointer_Type;
+      Lock                      : LT.Lazy_Pointer_Type;
+      Send_Page                 : LT.Lazy_Pointer_Type;
+      Get_Unmapped_Area         : LT.Lazy_Pointer_Type;
+      Check_Flags               : LT.Lazy_Pointer_Type;
+      Set_FL                    : LT.Lazy_Pointer_Type;
+      F_Lock                    : LT.Lazy_Pointer_Type;
+      Splice_Write              : LT.Lazy_Pointer_Type;
+      Splice_Read               : LT.Lazy_Pointer_Type;
+      Set_Lease                 : LT.Lazy_Pointer_Type;
+      F_Allocate                : LT.Lazy_Pointer_Type;
+      Show_File_Descriptor_Info : LT.Lazy_Pointer_Type;
+
+      --  #ifdef CONFIG_MMU
+      Memory_Map_Capabilities   : LT.Lazy_Pointer_Type;
+
+      Copy_File_Range           : LT.Lazy_Pointer_Type;
+      Clone_File_Range          : LT.Lazy_Pointer_Type;
+      Dedupe_File_Range         : LT.Lazy_Pointer_Type;
+   end record;
+   pragma Convention (C, File_Operations_Type);
+
+   function Register (
+      Major           : Major_Type;
+      Name            : String;
+      File_Operations : File_Operations_Type)
+   return Major_Type;
+
+   procedure Unregister (
+      Major           : Major_Type;
+      Name            : String);
 
 end Linux.Char_Device;

@@ -33,8 +33,28 @@
 --  These types should be platform independent.
 --  It is allowed to rename this package as "LT".
 --
+--  Important: Some of the types here are defined with implicit assumption
+--             that Ada types correspond to appropriate C types.
+--             For example "Long_Long_Integer" is equivalent to "long long".
+--             This is correct when compiling with GCC/Gnat and might not be
+--             true for other compilers.
+--
+
+with System;
 
 package Linux.Types is
+
+   --  Types that are specific to this bindings
+   ---------------------------------------------
+
+   --  Use this when you are too lazy to define a type
+   --
+   type Lazy_Pointer_Type is new System.Address;
+
+   --  Types parallel to "linux/types.h"
+   -------------------------------------
+
+   type Long_Offset_Type is new Long_Long_Integer;
 
    type u8  is mod 2**8;
    type u16 is mod 2**16;

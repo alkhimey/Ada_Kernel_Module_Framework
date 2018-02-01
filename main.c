@@ -6,8 +6,9 @@ extern void adakernelmoduleinit (void);
 //extern void adakernelmodulefinal (void);
 
 extern void ada_foo(void);
+extern void ada_unfoo(void);
 
-static struct task_struct *task;
+//static struct task_struct *task;
 
 
 /**
@@ -29,10 +30,10 @@ int init_thread(void *data)
 
 int init_module(void)
 {
-    int err;
+    //int err;
     printk(KERN_ERR "Init module.\n");    
 
-    task = kthread_run(init_thread, (void *)NULL, "init_thread");
+    /*task = kthread_run(init_thread, (void *)NULL, "init_thread");
  
     if(IS_ERR(task)){ 
         printk("Unable to start kernel thread.\n");
@@ -40,13 +41,17 @@ int init_module(void)
     }
 //    return 0;
     err = kthread_stop(task);
-    printk("%d\n", err);
+    printk("%d\n", err);*/
+    
+    init_thread(0);
+
     return 0;
 }
 
 
 void cleanup_module(void)
 {
+     ada_unfoo();
     //adakernelmodulefinal();
     printk(KERN_ERR "Goodbye Ada.\n");
 }
