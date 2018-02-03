@@ -33,14 +33,36 @@
 -- Extensive contributions were provided by Ada Core Technologies Inc.      --
 --                                                                          --
 ------------------------------------------------------------------------------
+
+with Interfaces.C.Strings;
+
 procedure Last_Chance_Handler
-   (Source_Location : System.Address;
+   (Source_Location : Interfaces.C.Strings.chars_ptr;
     Line            : Integer) is
 
-   pragma Unreferenced (Source_Location, Line);
+   pragma Unreferenced (Line);
+
+   procedure Printk_Wrapper (S     : Interfaces.C.Strings.chars_ptr;
+                             Level : Integer);
+
+   procedure Panic_Wrapper (S : Interfaces.C.Strings.chars_ptr);
+
+   pragma Import
+     (Convention    => C,
+      Entity        => Printk_Wrapper,
+      External_Name => "printk_wrapper");
+
+   pragma Import
+     (Convention    => C,
+      Entity        => Panic_Wrapper,
+      External_Name => "panic_wrapper");
 
 begin
 
-   null;
+   --  Printk_Wrapper (
+   --     "Entered Last_Chance_Handler due to unhandled exception", 3);
+   Printk_Wrapper (Source_Location, 3);
+
+   Panic_Wrapper (Source_Location);
 
 end Last_Chance_Handler;

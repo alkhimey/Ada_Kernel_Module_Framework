@@ -7,6 +7,12 @@
 --  pragma Restrictions (No_Obsolescent_Features);
 --  pragma Discard_Names;
 --  pragma Restrictions (No_Enumeration_Maps);
+
+
+--  https://docs.adacore.com/gnat_rm-docs/html/gnat_rm/gnat_rm/
+--         standard_and_implementation_defined_restrictions.html
+--
+--
 pragma Normalize_Scalars;
 pragma Restrictions (No_Exception_Propagation);
 pragma Restrictions (No_Exception_Registration);

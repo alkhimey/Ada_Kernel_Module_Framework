@@ -1,2 +1,4 @@
 
 sed --in-place 's/[[:space:]]\+$//' file
+
+make ; sudo insmod hello.ko ; sudo dmesg | tail -15; sudo rmmod hello.ko

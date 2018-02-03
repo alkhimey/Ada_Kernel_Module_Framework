@@ -33,9 +33,13 @@
 -- Extensive contributions were provided by Ada Core Technologies Inc.      --
 --                                                                          --
 ------------------------------------------------------------------------------
-with System;
+
+--  with System;
+with Interfaces.C.Strings;
 
 procedure Last_Chance_Handler
-  (Source_Location : System.Address; Line : Integer);
+   (Source_Location : Interfaces.C.Strings.chars_ptr;
+    Line            : Integer);
+
 pragma Export (C, Last_Chance_Handler, "__gnat_last_chance_handler");
 pragma Preelaborate (Last_Chance_Handler);
