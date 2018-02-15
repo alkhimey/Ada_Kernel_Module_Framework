@@ -34,6 +34,7 @@
 
 with Interfaces.C;
 with Linux.Types;
+with Linux.Module;
 
 package Linux.Char_Device is
 
@@ -52,7 +53,7 @@ package Linux.Char_Device is
    --    /usr/src/linux-headers-4.9.0-4-common/include/linux/fs.h
    --
    type File_Operations_Type is record
-      Owner                     : LT.Lazy_Pointer_Type;
+      Owner                     : Linux.Module.Module_Type;
       Lock_Less_Seek            : LT.Lazy_Pointer_Type;
       Read                      : LT.Lazy_Pointer_Type;
       Write                     : LT.Lazy_Pointer_Type;

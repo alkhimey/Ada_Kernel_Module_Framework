@@ -43,6 +43,7 @@
 #include <linux/slab.h>
 #include <linux/kdev_t.h>
 #include <linux/fs.h>
+#include <linux/module.h>
 
 /* 
  * #include <linux/printk.h>
@@ -130,7 +131,10 @@ void unregister_chrdev_wrapper(unsigned int major, const char *name)
     unregister_chrdev(major, name);
 }
 
-
+/**
+ * #include <linux/export.h>
+ */
+struct module * this_module = THIS_MODULE;
 
 
 

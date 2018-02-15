@@ -4,6 +4,7 @@ with System;
 with Linux.Types;
 with Linux.Kernel_IO;
 with Linux.Char_Device;
+with Linux.Module;
 
 package body Ada_Foo_Pack is
 
@@ -29,7 +30,8 @@ package body Ada_Foo_Pack is
       S7 : constant String := Float_Type'Image (424.242) & Character'Val (0);
 
       File_Ops : Linux.Char_Device.File_Operations_Type :=
-         (others => LT.Lazy_Pointer_Type(System.Null_Address));
+         (Owner  => Linux.Module.THIS_MODULE,
+          others => LT.Lazy_Pointer_Type(System.Null_Address));
 
    begin
       Linux.Kernel_IO.Put_Line (S1);
