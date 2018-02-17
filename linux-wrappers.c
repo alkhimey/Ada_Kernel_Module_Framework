@@ -35,7 +35,7 @@
  *  into Ada code.
  *
  *  This file is required mostly for the RTS but it is more convinient to
- *  compiled it in the kbuild build stage and linked into the lernel module.
+ *  compile it in the kbuild build stage and linke into the lernel module.
  */
  
  
@@ -44,6 +44,7 @@
 #include <linux/kdev_t.h>
 #include <linux/fs.h>
 #include <linux/module.h>
+#include <linux/device.h>
 
 /* 
  * #include <linux/printk.h>
@@ -136,7 +137,13 @@ void unregister_chrdev_wrapper(unsigned int major, const char *name)
  */
 struct module * this_module = THIS_MODULE;
 
-
+/**
+ * #include <linux/device.h>
+ */
+struct class * class_create_wrapper(struct module *owner, const char *name) 
+{
+    return class_create(owner, name);
+}
 
 
 

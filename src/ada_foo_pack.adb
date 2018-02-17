@@ -5,6 +5,7 @@ with Linux.Types;
 with Linux.Kernel_IO;
 with Linux.Char_Device;
 with Linux.Module;
+with Linux.Device;
 
 package body Ada_Foo_Pack is
 
@@ -19,6 +20,12 @@ package body Ada_Foo_Pack is
    
    Major : Linux.Char_Device.Major_Type;
 
+   Class : Linux.Device.Class_Type;
+
+   File_Ops : Linux.Char_Device.File_Operations_Type :=
+      (Owner  => Linux.Module.THIS_MODULE,
+       others => LT.Lazy_Pointer_Type(System.Null_Address));
+
    procedure Ada_Foo is
       S1 : constant String := Integer'Image (42) & Character'Val (0);
       S2 : constant String :=
@@ -28,10 +35,6 @@ package body Ada_Foo_Pack is
       S5 : constant String := Integer'Image (-42) & Character'Val (0);
       S6 : constant String := Unsigned_Type'Image (42) & Character'Val (0);
       S7 : constant String := Float_Type'Image (424.242) & Character'Val (0);
-
-      File_Ops : Linux.Char_Device.File_Operations_Type :=
-         (Owner  => Linux.Module.THIS_MODULE,
-          others => LT.Lazy_Pointer_Type(System.Null_Address));
 
    begin
       Linux.Kernel_IO.Put_Line (S1);
@@ -52,13 +55,21 @@ package body Ada_Foo_Pack is
       --  hr_device = device_create(hr_class,
       --     NULL, MKDEV(major, 0), NULL, DEVICE_NAME);
 
+      Linux.Kernel_IO.Put_Line ("Registering character device number...");
       Major := Linux.Char_Device.Register(
          Major           => 0,
-         Name            => "Artium",
+         Name            => "artiumchardev",
          File_Operations => File_Ops); 
    
       Linux.Kernel_IO.Put_Line ("Registered character device number" 
          & Linux.Char_Device.Major_Type'Image(Major));
+
+      Linux.Kernel_IO.Put_Line ("Creating class...");
+      Class := Linux.Device.Class_Create(
+         Owner => Linux.Module.THIS_MODULE, 
+         Name  => "artiumclass"); 
+      Linux.Kernel_IO.Put_Line ("Created class, check /sys/class/classname");
+
 
       --  Currently not working:
       --  raise Constraint_Error;
@@ -74,6 +85,8 @@ package body Ada_Foo_Pack is
       Linux.Kernel_IO.Put_Line ("Will unregister device number" 
          & Linux.Char_Device.Major_Type'Image(Major));
       Linux.Char_Device.Unregister(Major, DEVICE_NAME);
+
+      Linux.Device.Class_Destroy(Class);
 
    end;
 
