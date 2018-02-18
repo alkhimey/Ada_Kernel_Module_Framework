@@ -40,14 +40,55 @@ package Linux.Char_Device is
 
    package LT renames Linux.Types;
 
-   MAJOR_MAX : constant Interfaces.C.unsigned;
-   pragma Import (
-      Convention    => C,
-      Entity        => MAJOR_MAX,
-      External_Name => "major_max"
-   );
+   --  use type Interfaces.C.unsigned;
 
-   type Major_Type is new Integer range 0 .. Integer (MAJOR_MAX);
+   --  MINOR_BITS : constant Interfaces.C.unsigned;
+   --  pragma Import (
+   --     Convention    => C,
+   --     Entity        => MINOR_BITS,
+   --     External_Name => "minor_bits"
+   --  );
+   --
+   --  MAJOR_MAX : constant Interfaces.C.unsigned;
+   --  pragma Import (
+   --     Convention    => C,
+   --     Entity        => MAJOR_MAX,
+   --     External_Name => "major_max"
+   --  );
+   --
+   --  MINOR_MAX : constant Interfaces.C.unsigned;
+   --  pragma Import (
+   --     Convention    => C,
+   --     Entity        => MINOR_MAX,
+   --     External_Name => "minor_max"
+   --  );
+
+   type Major_Type is new Interfaces.C.unsigned;
+   --  range 0 .. Integer (MAJOR_MAX);
+   type Minor_Type is new Interfaces.C.unsigned;
+   --  range 0 .. Integer (MINOR_MAX);
+   type Dev_Type   is new Interfaces.C.unsigned;
+
+   function Make_Dev
+      (Major : Major_Type;
+       Minor : Minor_Type) return Dev_Type;
+
+   pragma Import
+      (Convention    => C,
+       Entity        => Make_Dev,
+       External_Name => "mkdev_wrapper");
+
+   --  type Dev_Type is
+   --     record
+   --        Minor : Minor_Type;
+   --        Major : Major_Type;
+   --  end record;
+   --
+   --  for Dev_Type use
+   --     record
+   --        Minor at 0 range 0              .. MINOR_BITS;
+   --        Major at 0 range MINOR_BITS + 1 .. Interfaces.C.unsigned'Size;
+   --  end record;
 
    --  Equivalent to struct file_operations
    --    /usr/src/linux-headers-4.9.0-4-common/include/linux/fs.h

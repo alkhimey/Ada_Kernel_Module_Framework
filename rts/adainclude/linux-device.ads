@@ -32,22 +32,49 @@
 -- This package follows some of the functions declared in linux/device.h
 --
 
-with Linux.Module;
+with System;
 with Linux.Types;
+with Linux.Module;
+with Linux.Char_Device;
 
 package Linux.Device is
 
    package LT renames Linux.Types;
 
-   type Class_Type is private;
+   type Class_Type  is private;
+   type Device_Type is private;
 
-   function Class_Create (Owner : Linux.Module.Module_Type;
-                          Name   : String) return Class_Type;
+   NONE_DEVICE : constant Device_Type;
 
-   procedure Class_Destroy (Class : Class_Type);
+   function Class_Create
+      (Owner : Linux.Module.Module_Type;
+       Name   : String) return Class_Type;
+
+   procedure Class_Destroy
+      (Class : Class_Type);
+
+   function Device_Create
+      (Class        : Class_Type;
+       Parent       : Device_Type;
+       Devt         : Linux.Char_Device.Dev_Type;
+       Driver_Data  : LT.Lazy_Pointer_Type;
+       Name         : String)
+   return Device_Type;
+
+   procedure Device_Destroy
+      (Class : Class_Type;
+       Devt  : Linux.Char_Device.Dev_Type);
+
+   pragma Import
+     (Convention    => C,
+      Entity        => Device_Destroy,
+      External_Name => "device_destroy");
 
 private
 
-   type Class_Type is new LT.Lazy_Pointer_Type;
+   type Class_Type  is new LT.Lazy_Pointer_Type;
+   type Device_Type is new LT.Lazy_Pointer_Type;
+
+   NONE_DEVICE : constant Device_Type := Device_Type (System.Null_Address);
 
 end Linux.Device;

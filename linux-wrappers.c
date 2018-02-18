@@ -115,8 +115,14 @@ void *kmalloc_wrapper(size_t size, gfp_t flags) {
  *
  **/
 
-const unsigned minor_max = (1 << MINORBITS) - 1;
-const unsigned major_max = (1 << (sizeof(dev_t) * 8 /* CHAR_BIT */ - MINORBITS)) - 1;
+//const unsigned minor_bits = MINORBITS;
+//const unsigned minor_max = (1 << MINORBITS) - 1;
+//const unsigned major_max = (1 << (sizeof(dev_t) * 8 /* CHAR_BIT */ - MINORBITS)) - 1;
+dev_t mkdev_wrapper(unsigned int maj, unsigned int min)
+{
+    return MKDEV(maj, min);
+}
+
 
 
 /**

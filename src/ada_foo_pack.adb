@@ -20,7 +20,8 @@ package body Ada_Foo_Pack is
    
    Major : Linux.Char_Device.Major_Type;
 
-   Class : Linux.Device.Class_Type;
+   Class  : Linux.Device.Class_Type;
+   Device : Linux.Device.Device_Type;
 
    File_Ops : Linux.Char_Device.File_Operations_Type :=
       (Owner  => Linux.Module.THIS_MODULE,
@@ -70,6 +71,15 @@ package body Ada_Foo_Pack is
          Name  => "artiumclass"); 
       Linux.Kernel_IO.Put_Line ("Created class, check /sys/class/classname");
 
+      Linux.Kernel_IO.Put_Line ("Creating device...");
+      Device := Linux.Device.Device_Create(
+         Class       => Class,
+         Parent      => Linux.Device.NONE_DEVICE,
+         Devt        => Linux.Char_Device.Make_Dev(Major, 13),
+         Driver_Data => LT.Lazy_Pointer_Type (System.Null_Address),
+         Name        => "artiumdevice");
+      Linux.Kernel_IO.Put_Line ("Created device, check /dev");
+
 
       --  Currently not working:
       --  raise Constraint_Error;
@@ -86,7 +96,11 @@ package body Ada_Foo_Pack is
          & Linux.Char_Device.Major_Type'Image(Major));
       Linux.Char_Device.Unregister(Major, DEVICE_NAME);
 
-      Linux.Device.Class_Destroy(Class);
+      Linux.Device.Class_Destroy (Class);
+
+      Linux.Device.Device_Destroy (
+         Class => Class,
+         Devt  => Linux.Char_Device.Make_Dev(Major, 13));
 
    end;
 
