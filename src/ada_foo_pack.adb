@@ -15,8 +15,6 @@ package body Ada_Foo_Pack is
    type Fixed_Point_Type is delta 0.1 range -100.0 .. 100.0;
    type Unsigned_Type is mod 2**32;
    type Float_Type is digits 6;
-
-   DEVICE_NAME : constant String := "artiumdev";
    
    Major : Linux.Char_Device.Major_Type;
 
@@ -94,7 +92,7 @@ package body Ada_Foo_Pack is
       --  unregister_chrdev(major, DEVICE_NAME);
       Linux.Kernel_IO.Put_Line ("Will unregister device number" 
          & Linux.Char_Device.Major_Type'Image(Major));
-      Linux.Char_Device.Unregister(Major, DEVICE_NAME);
+      Linux.Char_Device.Unregister(Major, "artiumchardev");
 
       Linux.Device.Class_Destroy (Class);
 
