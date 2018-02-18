@@ -48,12 +48,6 @@ package body Ada_Foo_Pack is
 
       -- Registering a character device
       -- 
-
-      --  major = register_chrdev(0, DEVICE_NAME, &hr_fops);
-      --  hr_class = class_create(THIS_MODULE, DEVICE_NAME);
-      --  hr_device = device_create(hr_class,
-      --     NULL, MKDEV(major, 0), NULL, DEVICE_NAME);
-
       Linux.Kernel_IO.Put_Line ("Registering character device number...");
       Major := Linux.Char_Device.Register(
          Major           => 0,
@@ -87,18 +81,21 @@ package body Ada_Foo_Pack is
    procedure Ada_Unfoo is
    begin
 
-      --  device_destroy(hr_class, MKDEV(major, 0));
-      --  class_destroy(hr_class);
-      --  unregister_chrdev(major, DEVICE_NAME);
+      Linux.Kernel_IO.Put_Line ("Will destroy device");
+      Linux.Device.Device_Destroy (
+         Class => Class,
+         Devt  => Linux.Char_Device.Make_Dev(Major, 13));
+
+      Linux.Kernel_IO.Put_Line ("Will destroy class");
+      Linux.Device.Class_Destroy (Class);
+
       Linux.Kernel_IO.Put_Line ("Will unregister device number" 
          & Linux.Char_Device.Major_Type'Image(Major));
       Linux.Char_Device.Unregister(Major, "artiumchardev");
 
-      Linux.Device.Class_Destroy (Class);
 
-      Linux.Device.Device_Destroy (
-         Class => Class,
-         Devt  => Linux.Char_Device.Make_Dev(Major, 13));
+
+
 
    end;
 
