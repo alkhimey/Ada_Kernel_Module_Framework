@@ -51,11 +51,13 @@ package body Ada_Foo_Pack is
 
       Size_To_Copy := LT.Size_Type'Min(Message'Size, Size);
 
+      Linux.Kernel_IO.Put_Line ("Reading " & LT.Size_Type'Image(Size_To_Copy) & "bytes");
+
       Linux.User_Space.Copy_To_User
          (To   => Out_Buffer,
           From => Message
                    (Message'First ..
-                    Message'First + Integer(Size_To_Copy)),
+                    Message'First + Integer(Size_To_Copy) - 1),
           N    => Size);
 
       return LT.SSize_Type (Size_To_Copy);

@@ -41,7 +41,7 @@ package body Linux.User_Space is
 
       function copy_to_user_wrapper (
          To   : User_Pointer;
-         From : Interfaces.C.Strings.chars_ptr;
+         From : Interfaces.C.char_array;
          N    : Interfaces.C.unsigned_long)
       return Interfaces.C.unsigned_long;
 
@@ -50,19 +50,14 @@ package body Linux.User_Space is
           Entity        => copy_to_user_wrapper,
           External_Name => "copy_to_user_wrapper");
 
-      Ptr : Interfaces.C.Strings.chars_ptr :=
-         Interfaces.C.Strings.New_String (From);
-
       Ret : Interfaces.C.unsigned_long;
 
    begin
       --  Interfaces.C.Strings.To_Chars_Ptr (Arr_Access),
       Ret := copy_to_user_wrapper (
          To   => To,
-         From => Ptr,
+         From => Interfaces.C.To_C (From),
          N    => Interfaces.C.unsigned_long (N));
-
-      Interfaces.C.Strings.Free (Ptr);
 
       --  TODO: Raise exception on Ret!
       if Ret /= 0 then

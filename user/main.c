@@ -37,8 +37,8 @@ int main(){
    }
    printf("The received message is: [%s]\n", receive);
 
-   printf("Reading from the device 10 bytes...\n");
-   ret = read(fd, receive, 10);        // Read the response from the LKM
+   printf("Reading from the device 26 bytes...\n");
+   ret = read(fd, receive, 26);        // Read the response from the LKM
    if (ret < 0){
       perror("Failed to read the message from the device.");
       return errno;
@@ -46,14 +46,14 @@ int main(){
    printf("The received message is: [%s]\n", receive);
 
 
-   printf("Reading from the device 100 bytes...\n");
+   /*printf("Reading from the device 100 bytes...\n");
    ret = read(fd, receive, 100);        // Read the response from the LKM
    if (ret < 0){
       perror("Failed to read the message from the device.");
       return errno;
    }
    printf("The received message is: [%s]\n", receive);
-
+*/
    printf("End of the program\n");
    close(fd);
 
