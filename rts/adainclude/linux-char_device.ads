@@ -34,27 +34,83 @@
 
 with Interfaces.C;
 with Linux.Types;
+with Linux.User_Space;
+with Linux.Module;
 
 package Linux.Char_Device is
 
    package LT renames Linux.Types;
 
-   MAJOR_MAX : constant Interfaces.C.unsigned;
-   pragma Import (
-      Convention    => C,
-      Entity        => MAJOR_MAX,
-      External_Name => "major_max"
-   );
+   --  use type Interfaces.C.unsigned;
 
-   type Major_Type is new Integer range 0 .. Integer (MAJOR_MAX);
+   --  MINOR_BITS : constant Interfaces.C.unsigned;
+   --  pragma Import (
+   --     Convention    => C,
+   --     Entity        => MINOR_BITS,
+   --     External_Name => "minor_bits"
+   --  );
+   --
+   --  MAJOR_MAX : constant Interfaces.C.unsigned;
+   --  pragma Import (
+   --     Convention    => C,
+   --     Entity        => MAJOR_MAX,
+   --     External_Name => "major_max"
+   --  );
+   --
+   --  MINOR_MAX : constant Interfaces.C.unsigned;
+   --  pragma Import (
+   --     Convention    => C,
+   --     Entity        => MINOR_MAX,
+   --     External_Name => "minor_max"
+   --  );
+
+   type Major_Type is new Interfaces.C.unsigned;
+   --  range 0 .. Integer (MAJOR_MAX);
+   type Minor_Type is new Interfaces.C.unsigned;
+   --  range 0 .. Integer (MINOR_MAX);
+   type Dev_Type   is new Interfaces.C.unsigned;
+
+   function Make_Dev
+      (Major : Major_Type;
+       Minor : Minor_Type) return Dev_Type;
+
+   pragma Import
+      (Convention    => C,
+       Entity        => Make_Dev,
+       External_Name => "mkdev_wrapper");
+
+   --  type Dev_Type is
+   --     record
+   --        Minor : Minor_Type;
+   --        Major : Major_Type;
+   --  end record;
+   --
+   --  for Dev_Type use
+   --     record
+   --        Minor at 0 range 0              .. MINOR_BITS;
+   --        Major at 0 range MINOR_BITS + 1 .. Interfaces.C.unsigned'Size;
+   --  end record;
+
+   --  ssize_t (*read) (struct file *, char __user *, size_t, loff_t *);
+
+   --  static ssize_t hr_read(struct file *file, char __user *buf, size_t co
+   --  loff_t *ppos)
+
+   --  TODO: Copy_From_User
+   type Read_Access_Type is access function (
+      File       : LT.Lazy_Pointer_Type;
+      Out_Buffer : Linux.User_Space.User_Pointer;
+      Size       : LT.Size_Type;
+      P_Pos      : LT.Lazy_Pointer_Type)
+   return LT.SSize_Type;
 
    --  Equivalent to struct file_operations
    --    /usr/src/linux-headers-4.9.0-4-common/include/linux/fs.h
    --
    type File_Operations_Type is record
-      Owner                     : LT.Lazy_Pointer_Type;
+      Owner                     : Linux.Module.Module_Type;
       Lock_Less_Seek            : LT.Lazy_Pointer_Type;
-      Read                      : LT.Lazy_Pointer_Type;
+      Read                      : Read_Access_Type;
       Write                     : LT.Lazy_Pointer_Type;
       Read_Iter                 : LT.Lazy_Pointer_Type;
       Write_Iter                : LT.Lazy_Pointer_Type;

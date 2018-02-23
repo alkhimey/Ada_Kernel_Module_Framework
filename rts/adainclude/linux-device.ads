@@ -2,7 +2,7 @@
 --                                                                          --
 --                          LINUX KERNEL BINDINGS                           --
 --                                                                          --
---                          L I N U X . T Y P E S                           --
+--                         L I N U X . D E V I C E                          --
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
@@ -29,41 +29,52 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 --
---  This package contains common types used thoughout the kernel bindings.
---  These types should be platform independent.
---  It is allowed to rename this package as "LT".
---
---  Important: Some of the types here are defined with implicit assumption
---             that Ada types correspond to appropriate C types.
---             For example "Long_Long_Integer" is equivalent to "long long".
---             This is correct when compiling with GCC/Gnat and might not be
---             true for other compilers.
+-- This package follows some of the functions declared in linux/device.h
 --
 
 with System;
-with System.CRTL;
-with Interfaces.C;
+with Linux.Types;
+with Linux.Module;
+with Linux.Char_Device;
 
-package Linux.Types is
+package Linux.Device is
 
-   --  Types that are specific to this bindings
-   ---------------------------------------------
+   package LT renames Linux.Types;
 
-   --  Use this when you are too lazy to define a type
-   --
-   type Lazy_Pointer_Type is new System.Address;
+   type Class_Type  is private;
+   type Device_Type is private;
 
-   type Size_Type is new Interfaces.C.size_t;
-   type SSize_Type is new System.CRTL.ssize_t;
+   NONE_DEVICE : constant Device_Type;
 
-   --  Types parallel to "linux/types.h"
-   -------------------------------------
+   function Class_Create
+      (Owner : Linux.Module.Module_Type;
+       Name   : String) return Class_Type;
 
-   type Long_Offset_Type is new Long_Long_Integer;
+   procedure Class_Destroy
+      (Class : Class_Type);
 
-   type u8  is mod 2**8;
-   type u16 is mod 2**16;
-   type u32 is mod 2**32;
-   type u64 is mod 2**64;
+   function Device_Create
+      (Class        : Class_Type;
+       Parent       : Device_Type;
+       Devt         : Linux.Char_Device.Dev_Type;
+       Driver_Data  : LT.Lazy_Pointer_Type;
+       Name         : String)
+   return Device_Type;
 
-end Linux.Types;
+   procedure Device_Destroy
+      (Class : Class_Type;
+       Devt  : Linux.Char_Device.Dev_Type);
+
+   pragma Import
+     (Convention    => C,
+      Entity        => Device_Destroy,
+      External_Name => "device_destroy");
+
+private
+
+   type Class_Type  is new LT.Lazy_Pointer_Type;
+   type Device_Type is new LT.Lazy_Pointer_Type;
+
+   NONE_DEVICE : constant Device_Type := Device_Type (System.Null_Address);
+
+end Linux.Device;

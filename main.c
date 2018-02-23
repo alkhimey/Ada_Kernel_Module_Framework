@@ -2,6 +2,9 @@
 #include <linux/slab.h>
 #include <linux/kthread.h>
 
+// Required for __class_Create to be exported.
+MODULE_LICENSE("GPL");
+
 extern void adakernelmoduleinit (void);
 //extern void adakernelmodulefinal (void);
 

@@ -2,7 +2,7 @@
 --                                                                          --
 --                          LINUX KERNEL BINDINGS                           --
 --                                                                          --
---                          L I N U X . T Y P E S                           --
+--                         L I N U X . M O D U L E                          --
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
@@ -29,41 +29,21 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 --
---  This package contains common types used thoughout the kernel bindings.
---  These types should be platform independent.
---  It is allowed to rename this package as "LT".
 --
---  Important: Some of the types here are defined with implicit assumption
---             that Ada types correspond to appropriate C types.
---             For example "Long_Long_Integer" is equivalent to "long long".
---             This is correct when compiling with GCC/Gnat and might not be
---             true for other compilers.
 --
+with Linux.Types;
 
-with System;
-with System.CRTL;
-with Interfaces.C;
+package Linux.Module is
 
-package Linux.Types is
+   package LT renames Linux.Types;
 
-   --  Types that are specific to this bindings
-   ---------------------------------------------
+   type Module_Type is new LT.Lazy_Pointer_Type;
 
-   --  Use this when you are too lazy to define a type
-   --
-   type Lazy_Pointer_Type is new System.Address;
+   THIS_MODULE : constant Module_Type;
+   pragma Import (
+      Convention    => C,
+      Entity        => THIS_MODULE,
+      External_Name => "this_module"
+   );
 
-   type Size_Type is new Interfaces.C.size_t;
-   type SSize_Type is new System.CRTL.ssize_t;
-
-   --  Types parallel to "linux/types.h"
-   -------------------------------------
-
-   type Long_Offset_Type is new Long_Long_Integer;
-
-   type u8  is mod 2**8;
-   type u16 is mod 2**16;
-   type u32 is mod 2**32;
-   type u64 is mod 2**64;
-
-end Linux.Types;
+end Linux.Module;

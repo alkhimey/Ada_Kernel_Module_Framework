@@ -2,7 +2,7 @@
 --                                                                          --
 --                          LINUX KERNEL BINDINGS                           --
 --                                                                          --
---                          L I N U X . T Y P E S                           --
+--                     L I N U X . U S E R  S P A C E                       --
 --                                                                          --
 --                                 S p e c                                  --
 --                                                                          --
@@ -29,41 +29,33 @@
 --                                                                          --
 ------------------------------------------------------------------------------
 --
---  This package contains common types used thoughout the kernel bindings.
---  These types should be platform independent.
---  It is allowed to rename this package as "LT".
+--  Interacting with the user space.
 --
---  Important: Some of the types here are defined with implicit assumption
---             that Ada types correspond to appropriate C types.
---             For example "Long_Long_Integer" is equivalent to "long long".
---             This is correct when compiling with GCC/Gnat and might not be
---             true for other compilers.
---
-
-with System;
-with System.CRTL;
 with Interfaces.C;
+with Interfaces.C.Strings;
+with Linux.Types;
 
-package Linux.Types is
+package Linux.User_Space is
 
-   --  Types that are specific to this bindings
-   ---------------------------------------------
+   package LT renames Linux.Types;
 
-   --  Use this when you are too lazy to define a type
-   --
-   type Lazy_Pointer_Type is new System.Address;
+   --  procedure Copy_From_User (
+   --     To   : Interfaces.C.Strings.Char_Ptr;
+   --     From : Interfaces.C.Strings.Char_Ptr;
+   --     N    : Interfaces.C.unsigned_long)
+   --  return Interfaces.C.unsigned_long;
 
-   type Size_Type is new Interfaces.C.size_t;
-   type SSize_Type is new System.CRTL.ssize_t;
+   --  TODO: Find Ada way to prevent operations on these
+   type User_Pointer is private;
 
-   --  Types parallel to "linux/types.h"
-   -------------------------------------
+   function Copy_To_User (
+      To   : User_Pointer;
+      From : String;
+      N    : LT.Size_Type)
+   return LT.Size_Type;
 
-   type Long_Offset_Type is new Long_Long_Integer;
+private
 
-   type u8  is mod 2**8;
-   type u16 is mod 2**16;
-   type u32 is mod 2**32;
-   type u64 is mod 2**64;
+   type User_Pointer is new Interfaces.C.Strings.chars_ptr;
 
-end Linux.Types;
+end Linux.User_Space;

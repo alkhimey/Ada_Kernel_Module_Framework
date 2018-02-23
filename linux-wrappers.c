@@ -35,7 +35,7 @@
  *  into Ada code.
  *
  *  This file is required mostly for the RTS but it is more convinient to
- *  compiled it in the kbuild build stage and linked into the lernel module.
+ *  compile it in the kbuild build stage and linke into the lernel module.
  */
  
  
@@ -43,6 +43,9 @@
 #include <linux/slab.h>
 #include <linux/kdev_t.h>
 #include <linux/fs.h>
+#include <linux/module.h>
+#include <linux/device.h>
+#include <asm/uaccess.h>
 
 /* 
  * #include <linux/printk.h>
@@ -113,8 +116,14 @@ void *kmalloc_wrapper(size_t size, gfp_t flags) {
  *
  **/
 
-const unsigned minor_max = (1 << MINORBITS) - 1;
-const unsigned major_max = (1 << (sizeof(dev_t) * 8 /* CHAR_BIT */ - MINORBITS)) - 1;
+//const unsigned minor_bits = MINORBITS;
+//const unsigned minor_max = (1 << MINORBITS) - 1;
+//const unsigned major_max = (1 << (sizeof(dev_t) * 8 /* CHAR_BIT */ - MINORBITS)) - 1;
+dev_t mkdev_wrapper(unsigned int maj, unsigned int min)
+{
+    return MKDEV(maj, min);
+}
+
 
 
 /**
@@ -130,9 +139,24 @@ void unregister_chrdev_wrapper(unsigned int major, const char *name)
     unregister_chrdev(major, name);
 }
 
+/**
+ * #include <linux/export.h>
+ */
+struct module * this_module = THIS_MODULE;
 
+/**
+ * #include <linux/device.h>
+ */
+struct class * class_create_wrapper(struct module *owner, const char *name) 
+{
+    return class_create(owner, name);
+}
 
-
-
-
+/**
+ * #include <asm/uaccess.h>
+ */
+unsigned long copy_to_user_wrapper(void __user *to, const void *from, unsigned long n)
+{
+   return copy_to_user(to, from, n);
+}
 
