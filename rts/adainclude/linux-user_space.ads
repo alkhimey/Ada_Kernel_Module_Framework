@@ -48,10 +48,11 @@ package Linux.User_Space is
    --  TODO: Find Ada way to prevent operations on these
    type User_Pointer is private;
 
-   procedure Copy_To_User (
+   function Copy_To_User (
       To   : User_Pointer;
       From : String;
-      N    : LT.Size_Type);
+      N    : LT.Size_Type)
+   return LT.Size_Type;
 
 private
 

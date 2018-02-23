@@ -31,14 +31,16 @@
 
 package body Linux.User_Space is
 
-   procedure Copy_To_User (
+   function Copy_To_User (
       To   : User_Pointer;
       From : String;
       N    : LT.Size_Type)
+   return LT.Size_Type
    is
 
       use type Interfaces.C.unsigned_long;
 
+      --  https://www.fsl.cs.sunysb.edu/kernel-api/re256.html
       function copy_to_user_wrapper (
          To   : User_Pointer;
          From : Interfaces.C.char_array;
@@ -50,19 +52,12 @@ package body Linux.User_Space is
           Entity        => copy_to_user_wrapper,
           External_Name => "copy_to_user_wrapper");
 
-      Ret : Interfaces.C.unsigned_long;
-
    begin
       --  Interfaces.C.Strings.To_Chars_Ptr (Arr_Access),
-      Ret := copy_to_user_wrapper (
+      return LT.Size_Type (copy_to_user_wrapper (
          To   => To,
          From => Interfaces.C.To_C (From),
-         N    => Interfaces.C.unsigned_long (N));
-
-      --  TODO: Raise exception on Ret!
-      if Ret /= 0 then
-         raise Program_Error;
-      end if;
+         N    => Interfaces.C.unsigned_long (N)));
 
    end Copy_To_User;
 

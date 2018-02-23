@@ -46,6 +46,7 @@ package body Ada_Foo_Pack is
 
       Message : String := "Lorem ipsum dolor sit amet";
       Size_To_Copy : LT.Size_Type;
+      Not_Copied   : LT.Size_Type := 0;
 
    begin
 
@@ -53,14 +54,14 @@ package body Ada_Foo_Pack is
 
       Linux.Kernel_IO.Put_Line ("Reading " & LT.Size_Type'Image(Size_To_Copy) & "bytes");
 
-      Linux.User_Space.Copy_To_User
+      Not_Copied := Linux.User_Space.Copy_To_User
          (To   => Out_Buffer,
           From => Message
                    (Message'First ..
                     Message'First + Integer(Size_To_Copy) - 1),
           N    => Size);
 
-      return LT.SSize_Type (Size_To_Copy);
+      return LT.SSize_Type (Size_To_Copy - Not_Copied);
 
    end Read_Example;
 
