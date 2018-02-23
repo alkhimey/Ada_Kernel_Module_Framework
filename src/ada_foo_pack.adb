@@ -2,6 +2,7 @@
 
 with System;
 with Linux.Types;
+with Linux.User_Space;
 with Linux.Kernel_IO;
 with Linux.Char_Device;
 with Linux.Module;
@@ -21,9 +22,46 @@ package body Ada_Foo_Pack is
    Class  : Linux.Device.Class_Type;
    Device : Linux.Device.Device_Type;
 
+   --  TODO:
+   function Read_Example (
+      File       : LT.Lazy_Pointer_Type;
+      Out_Buffer : Linux.User_Space.User_Pointer;
+      Size       : LT.Size_Type;
+      P_Pos      : LT.Lazy_Pointer_Type)
+   return LT.SSize_Type;
+
    File_Ops : Linux.Char_Device.File_Operations_Type :=
       (Owner  => Linux.Module.THIS_MODULE,
+       Read   => Read_Example'access,
        others => LT.Lazy_Pointer_Type(System.Null_Address));
+
+   function Read_Example (
+      File       : LT.Lazy_Pointer_Type;
+      Out_Buffer : Linux.User_Space.User_Pointer;
+      Size       : LT.Size_Type;
+      P_Pos      : LT.Lazy_Pointer_Type)
+   return LT.SSize_Type is
+
+      use type LT.Size_Type; 
+
+      Message : String := "Lorem ipsum dolor sit amet";
+      Size_To_Copy : LT.Size_Type;
+
+   begin
+
+      Size_To_Copy := LT.Size_Type'Min(Message'Size, Size);
+
+      Linux.User_Space.Copy_To_User
+         (To   => Out_Buffer,
+          From => Message
+                   (Message'First ..
+                    Message'First + Integer(Size_To_Copy)),
+          N    => Size);
+
+      return LT.SSize_Type (Size_To_Copy);
+
+   end Read_Example;
+
 
    procedure Ada_Foo is
       S1 : constant String := Integer'Image (42) & Character'Val (0);
@@ -92,10 +130,6 @@ package body Ada_Foo_Pack is
       Linux.Kernel_IO.Put_Line ("Will unregister device number" 
          & Linux.Char_Device.Major_Type'Image(Major));
       Linux.Char_Device.Unregister(Major, "artiumchardev");
-
-
-
-
 
    end;
 

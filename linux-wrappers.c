@@ -45,6 +45,7 @@
 #include <linux/fs.h>
 #include <linux/module.h>
 #include <linux/device.h>
+#include <asm/uaccess.h>
 
 /* 
  * #include <linux/printk.h>
@@ -151,5 +152,11 @@ struct class * class_create_wrapper(struct module *owner, const char *name)
     return class_create(owner, name);
 }
 
-
+/**
+ * #include <asm/uaccess.h>
+ */
+unsigned long copy_to_user_wrapper(void __user *to, const void *from, unsigned long n)
+{
+   return copy_to_user(to, from, n);
+}
 

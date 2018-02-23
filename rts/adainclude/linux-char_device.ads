@@ -34,6 +34,7 @@
 
 with Interfaces.C;
 with Linux.Types;
+with Linux.User_Space;
 with Linux.Module;
 
 package Linux.Char_Device is
@@ -90,13 +91,26 @@ package Linux.Char_Device is
    --        Major at 0 range MINOR_BITS + 1 .. Interfaces.C.unsigned'Size;
    --  end record;
 
+   --  ssize_t (*read) (struct file *, char __user *, size_t, loff_t *);
+
+   --  static ssize_t hr_read(struct file *file, char __user *buf, size_t co
+   --  loff_t *ppos)
+
+   --  TODO: Copy_From_User
+   type Read_Access_Type is access function (
+      File       : LT.Lazy_Pointer_Type;
+      Out_Buffer : Linux.User_Space.User_Pointer;
+      Size       : LT.Size_Type;
+      P_Pos      : LT.Lazy_Pointer_Type)
+   return LT.SSize_Type;
+
    --  Equivalent to struct file_operations
    --    /usr/src/linux-headers-4.9.0-4-common/include/linux/fs.h
    --
    type File_Operations_Type is record
       Owner                     : Linux.Module.Module_Type;
       Lock_Less_Seek            : LT.Lazy_Pointer_Type;
-      Read                      : LT.Lazy_Pointer_Type;
+      Read                      : Read_Access_Type;
       Write                     : LT.Lazy_Pointer_Type;
       Read_Iter                 : LT.Lazy_Pointer_Type;
       Write_Iter                : LT.Lazy_Pointer_Type;
