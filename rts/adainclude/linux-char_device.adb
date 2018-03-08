@@ -73,7 +73,6 @@ package body Linux.Char_Device is
          Interfaces.C.unsigned (Major),
          Name_Chars,
          File_Operations);
-
       Interfaces.C.Strings.Free (Name_Chars);
 
       --  TODO: -EINVAL, -EBUSY

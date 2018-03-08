@@ -93,10 +93,6 @@ package Linux.Char_Device is
 
    --  ssize_t (*read) (struct file *, char __user *, size_t, loff_t *);
 
-   --  static ssize_t hr_read(struct file *file, char __user *buf, size_t co
-   --  loff_t *ppos)
-
-   --  TODO: Copy_From_User
    type Read_Access_Type is access function (
       File       : LT.Lazy_Pointer_Type;
       Out_Buffer : Linux.User_Space.User_Pointer;
