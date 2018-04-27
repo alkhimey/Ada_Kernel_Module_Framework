@@ -1,5 +1,5 @@
-Ada Linux Kernel Module Toolkit
-===============================
+Ada Linux Kernel Module Framework
+=================================
 
 _NOTICE: This is work in progress_
 
@@ -67,9 +67,7 @@ See message log:
 
 ### Developing with VM
 
-It is discouraged to develop and test kernel modules on the system you are using for everyday work.
-
-A Much superior approach is to use a virtual machine.
+It is adviced to to develop and test kernel modules on a virtual machine rather on your everyday system.
 
 The author of this module uses Vagrant as a VM manger. An automatic process will setup an `debian/stretch64` machine and install all the necessary tools.
 
