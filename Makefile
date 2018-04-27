@@ -4,7 +4,7 @@ ADA_RTS_PATH := rts
 
 
 obj-m += hello.o
-hello-y := $(ADA_RTS_PATH)/adainclude/linux-wrappers.o $(ADA_RTS_PATH)/adalib/libgnat.a lib/libadakernelmodule.a main.o
+hello-y := main.o $(ADA_RTS_PATH)/adainclude/linux-wrappers.o lib/libadakernelmodule.a  $(ADA_RTS_PATH)/adalib/libgnat.a
 
 all:
 	gprbuild -P$(ADA_RTS_PATH)/gnat.gpr --create-missing-dirs
