@@ -21,8 +21,7 @@ project Kernel_Module_Lib is
    end Builder;
 
    package Binder is
-      for Default_Switches ("Ada") use ("-nostdlib",  
-         "--RTS=" & Kernel_Module_Lib'Project_Dir & "rts");
+      for Default_Switches ("Ada") use ("-nostdlib");
    end Binder;
 
    package Compiler is
@@ -32,8 +31,8 @@ project Kernel_Module_Lib is
 	 "-O2", 
      --  "-ffunction-sections",
      --  "-fdata-sections", 
-	 "-mcmodel=kernel",         -- required for kernel development
-         "--RTS=" & Kernel_Module_Lib'Project_Dir & "rts");
+	 "-mcmodel=kernel"         -- required for kernel development
+   );
    end Compiler;
 
 end Kernel_Module_Lib;
