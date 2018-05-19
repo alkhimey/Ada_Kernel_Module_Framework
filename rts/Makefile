@@ -1,12 +1,12 @@
 # Path to the root of the Ada runtime directory
-ADA_RTS_PATH := rts
+ADA_RTS_PATH := .
 
-runtime:
+all:
 	gprbuild -P$(ADA_RTS_PATH)/gnat.gpr --create-missing-dirs
 
-clean-runtime:
+clean:
 	gnatclean -P$(ADA_RTS_PATH)/gnat.gpr
 
-all: runtime
+.PHONY: all clean
 
 
