@@ -37,5 +37,5 @@ r="(ls xxx)"
 
 
 @test "clean module" {
-   #make clean
+   make clean
 }
