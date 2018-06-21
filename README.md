@@ -1,14 +1,14 @@
 Ada Linux Kernel Module Framework
 =================================
 
-The goal of this project is do demonstrate that it is possible and is useful to use Ada programming language when developing Linux kernel modules.
+The goal of this project is to demonstrate that it is possible and is useful to use Ada programming language when developing Linux kernel modules.
 
 This framework provides Ada bindings for Kernel functions as well as an Ada runtime modified to run in the kernel (statically linked into the kernel module).
 
 Please note that this work is:
 
-1. **Proof of concept** - There are no plans to provide an exhaustive set of bindings as well as to make this robust against Kernel changes.
-1. **Work in progress** - Every commit might break existing modules.
+1. **Proof of concept** - There are no plans to provide an exhaustive set of bindings as well as to make this robust against future Kernel changes.
+1. **Work in progress** - Every commit might break modules that were working with the previous version of the framework.
 
 ### Directory structure
 
@@ -27,7 +27,7 @@ Please note that this work is:
 
 * **testing-utils** - Helper scripts for testing.
 
-* **examples** - This directory contains subdirectories with source code for example kernel modules. Some of these are also being used as regression tests.
+* **examples** - This directory contains subdirectories with source code example kernel modules. Some of these are also being used as regression tests.
 
 * **examples/template** - A simple module that can be used as a starting point.
 
@@ -60,6 +60,8 @@ Copyright (C) 2004-2017, AdaCore
 This is free software; see the source for copying conditions.
 There is NO warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
+$ bats -v
+Bats 0.4.0
 ```
 
 It might be possible to use other tool versions, but it was not tested.
