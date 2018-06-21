@@ -28,3 +28,11 @@ if ! grep -q -e gnat  /home/vagrant/.bashrc ; then
 	echo 'PATH="/usr/gnat/bin:$PATH"; export PATH' >> /home/vagrant/.bashrc
 
 fi
+
+# Install bats 
+# Bats is a TAP-compliant testing framework for Bash. It provides a simple way to 
+# verify that the UNIX programs you write behave as expected.
+# We use this framework for testing.
+sudo add-apt-repository ppa:duggan/bats
+sudo apt-get update
+sudo apt-get install bats

@@ -11,42 +11,15 @@ extern void adakernelmoduleinit (void);
 extern void ada_foo(void);
 extern void ada_unfoo(void);
 
-//static struct task_struct *task;
 
-
-/**
- * Ada's part is wrapped in a kernel thread.
- * If an exception is raised and not handled,
- * the last chance handler will terminate the 
- * container thread.
- * 
- */
-int init_thread(void *data)
+int init_module(void)
 {
+    printk(KERN_ERR "Init module.\n");    
+
     printk(KERN_ERR "Hello Ada.\n");
     adakernelmoduleinit();
     ada_foo();
     printk(KERN_ERR "%s\n", "After Ada");
-    return 0; // ?
-}
-
-
-int init_module(void)
-{
-    //int err;
-    printk(KERN_ERR "Init module.\n");    
-
-    /*task = kthread_run(init_thread, (void *)NULL, "init_thread");
- 
-    if(IS_ERR(task)){ 
-        printk("Unable to start kernel thread.\n");
-        return PTR_ERR(task);
-    }
-//    return 0;
-    err = kthread_stop(task);
-    printk("%d\n", err);*/
-    
-    init_thread(0);
 
     return 0;
 }
