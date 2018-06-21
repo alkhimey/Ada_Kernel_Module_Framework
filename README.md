@@ -25,6 +25,8 @@ Please note that this work is:
 
 * **vm_scripts** - Scripts used by Vagrant to setup the virtual machine and the tools.
 
+* **testing-utils** - Helper scripts for testing.
+
 * **examples** - This directory contains subdirectories with source code for example kernel modules. Some of these are also being used as regression tests.
 
 * **examples/template** - A simple module that can be used as a starting point.
