@@ -12,3 +12,5 @@ clean:
 test:
 	cd examples/template && bats test.bats
    
+
+.PHONY: all clean test
