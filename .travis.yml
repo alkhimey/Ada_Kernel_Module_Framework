@@ -8,5 +8,9 @@ install:
   - sudo vm_scripts/gprbuild_doinstall.exp
   - sudo vm_scripts/gnat_doinstall.exp
 
+
+before_script:
+  - export PATH="/usr/gnat/bin":$PATH
+
 script:
   - make
