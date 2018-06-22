@@ -35,4 +35,4 @@ fi
 # We use this framework for testing.
 sudo add-apt-repository ppa:duggan/bats
 sudo apt-get update
-sudo apt-get install bats
+sudo apt-get --yes install bats
