@@ -29,8 +29,9 @@ if ! grep -q -e gnat  /home/vagrant/.bashrc ; then
 	# Let's be optimistic that the installation of gnat will be ok
 	# in the gnat_doinstall.exp script and also that it will installed 
 	# in the specified here path.
-	echo 'PATH="/usr/gnat/bin:$PATH"; export PATH' >> /home/vagrant/.bashrc
-
+	echo 'PATH="/usr/gnat/bin:$PATH"; export PATH' >> ~/.bashrc
+   
+   #export PATH=/usr/gnat/bin:$PATH
 fi
 
 # Install bats 
