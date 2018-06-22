@@ -33,6 +33,6 @@ fi
 # Bats is a TAP-compliant testing framework for Bash. It provides a simple way to 
 # verify that the UNIX programs you write behave as expected.
 # We use this framework for testing.
-sudo add-apt-repository ppa:duggan/bats
+sudo add-apt-repository --yes ppa:duggan/bats
 sudo apt-get update
 sudo apt-get --yes install bats
