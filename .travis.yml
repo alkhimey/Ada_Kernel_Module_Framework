@@ -5,8 +5,8 @@ sudo: enabled
 
 install:
   - vm_scripts/setup_vm.sh
-  - vm_scripts/gprbuild_doinstall.exp
-  - vm_scripts/gnat_doinstall.exp
+  - sudo vm_scripts/gprbuild_doinstall.exp
+  - sudo vm_scripts/gnat_doinstall.exp
 
 script:
   - make
