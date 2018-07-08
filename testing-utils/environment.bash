@@ -1,7 +1,7 @@
 #! /bin/bash
 
 #
-# Enviroment script for Bats tests
+# Environment script for Bats tests
 #
 #
 
