@@ -8,3 +8,5 @@
 .tmp_versions/
 .vagrant/
 a.out
+
+*.ali
