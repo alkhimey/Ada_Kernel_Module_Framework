@@ -3,7 +3,7 @@ project Macrosub is
    for Languages use ("ada");
 
    for Source_Dirs use (".");
-   for Object_Dir use ".";
+   for Object_Dir use "obj";
    for Exec_Dir use "..";
-   for Main use ("macrosub");
+   for Main use ("macrosub.adb");
 end Macrosub;
