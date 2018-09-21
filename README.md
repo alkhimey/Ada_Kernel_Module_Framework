@@ -1,6 +1,8 @@
 Ada Linux Kernel Module Framework
 =================================
 
+[![Build Status](https://travis-ci.org/alkhimey/Ada_Kernel_Module_Framework.svg?branch=master)](https://travis-ci.org/alkhimey/Ada_Kernel_Module_Framework)
+
 The goal of this project is to demonstrate that it is possible and is useful to use Ada programming language when developing Linux kernel modules.
 
 This framework provides Ada bindings for Kernel functions as well as an Ada runtime modified to run in the kernel (statically linked into the kernel module).
@@ -12,6 +14,7 @@ Please note that this work is:
 
 ### Directory structure
 
+* **Makefile** - Use this makefile to build and test everything.
 
 * **rts** - Ada _runtime system_ that was modified to be able to run in the kernel. It's is based on Gnat's runtime.
 
@@ -94,7 +97,13 @@ $ virtualbox -h
 Oracle VM VirtualBox Manager 5.1.34_Ubuntu
 ```
 
-### Building
+### Using the main makefile
+
+* `make` - Build the RTS and all the example modules.
+* `make clean` - Clean the RTS and the example modules.
+* `make test` - Run all the tests.
+
+### Building a single module
 
 First you need to make the RTS (run this from the root directory):
 
@@ -109,7 +118,7 @@ $ cd examples/template
 $ make
  ```
 
-### Running
+### Running manually
 
 A file called ```hello.ko``` will be generated.
 

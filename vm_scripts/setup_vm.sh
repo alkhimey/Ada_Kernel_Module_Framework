@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
-sudo apt-get install -y linux-source build-essential
+
+# Update package list
+sudo apt-get update 
+
+sudo apt-get install -y build-essential
+sudo apt-get install -y linux-headers-$(uname -r)
 # echo "Extracting kernel source..."
 # tar xf /usr/src/linux-source-4.9.tar.xz
 
@@ -25,14 +30,15 @@ if ! grep -q -e gnat  /home/vagrant/.bashrc ; then
 	# Let's be optimistic that the installation of gnat will be ok
 	# in the gnat_doinstall.exp script and also that it will installed 
 	# in the specified here path.
-	echo 'PATH="/usr/gnat/bin:$PATH"; export PATH' >> /home/vagrant/.bashrc
-
+	echo 'PATH="/usr/gnat/bin:$PATH"; export PATH' >> ~/.bashrc
+   
+   #export PATH=/usr/gnat/bin:$PATH
 fi
 
 # Install bats 
 # Bats is a TAP-compliant testing framework for Bash. It provides a simple way to 
 # verify that the UNIX programs you write behave as expected.
 # We use this framework for testing.
-sudo add-apt-repository ppa:duggan/bats
+sudo add-apt-repository --yes ppa:duggan/bats
 sudo apt-get update
-sudo apt-get install bats
+sudo apt-get --yes install bats
