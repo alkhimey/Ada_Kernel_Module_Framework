@@ -77,6 +77,9 @@ package body Ada_Foo_Pack is
       S7 : constant String := Float_Type'Image (424.242) & Character'Val (0);
 
    begin
+
+      compilation error here!
+
       Linux.Kernel_IO.Put_Line (S1);
       Linux.Kernel_IO.Put_Line (S2);
       Linux.Kernel_IO.Put_Line (S3);
