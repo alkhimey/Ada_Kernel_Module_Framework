@@ -1,6 +1,6 @@
 #!/usr/bin/env bats
 
-load ../../testing-utils/enviroment
+load ../../testing-utils/environment
 
 
 #setup() {
