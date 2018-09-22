@@ -3,8 +3,7 @@
 # Update package list
 sudo apt-get update 
 
-sudo apt-get install -y build-essential
-sudo apt-get install -y linux-headers-$(uname -r)
+sudo apt-get install -y linux-source build-essential
 # echo "Extracting kernel source..."
 # tar xf /usr/src/linux-source-4.9.tar.xz
 
